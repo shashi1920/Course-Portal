@@ -7,13 +7,11 @@
 </head>
 <body>
   {% block body  %}
-  <h2>Welcome HOD of {{ deptm.dept_name }}</h2>
-  <h4> Here are the programmes offered in your department</h4>
-
-    {% if programme_li %}
+<h3> Currently Viewing Native Courses of <i> {{ programme_li.programme_name }} {{ programme_li.duration }} Year, {{ programme_li.branch }} </i></h3>
+{% if course_li %}
     <ul>
-    {% for pr in programme_li %}
-        <li><a href="{{ pr.programme_code }}/">{{ pr.programme_name }}</a></li>
+    {% for pr in course_li %}
+        <li><a href="{{ pr }}/">{{ pr.course_name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

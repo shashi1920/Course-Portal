@@ -16,7 +16,7 @@ class dept(models.Model):
         return self.dept_name
 
 class programme(models.Model): #Btech/IDD/M.Tech/B.Pharm etc
-    programme_code=models.CharField(max_length=5,primary_key=True)
+    programme_code=models.CharField(max_length=5)
     programme_name=models.CharField(max_length=200)
     duration=models.IntegerField(max_length=2)
     branch=models.ForeignKey(dept,blank=False,null=False)
