@@ -1,0 +1,39 @@
+{% load staticfiles %}
+<link href="{% static 'collection/bootstrap.min.css' %}" rel="stylesheet">
+<link href="{% static 'collection/main.css' %}" rel="stylesheet">
+<script src="{% static 'collection/js/main.js' %}"></script>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="wrap">
+                <p class="form-title">
+                    Sign In</p>
+                    {% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+                <form class="login" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+                {% csrf_token %}
+                <input type="text" placeholder="Username" />
+                <input type="password" placeholder="Password" />
+                <input type="submit" value="Sign In" class="btn btn-success btn-sm" />
+                <div class="remember-forgot">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" />
+                                    Remember Me
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 forgot-pass-content">
+                            <a href="javascription:void(0)" class="forgot-pass">Forgot Password</a>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="posted-by">Created By: <a href="https://github.com/shashi1920">Shashikant Sharma</a></div>
+</div>

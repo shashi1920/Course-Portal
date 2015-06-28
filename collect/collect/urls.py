@@ -8,5 +8,8 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^index/$', 'collection.views.index', name='index'),
+    url(r'^login/$', 'django.contrib.auth.views.login'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout'),
+    url(r'^programme/(?P<br>[A-Za-z]{2})/$', 'collection.views.programme_list'),
 
 )

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+{% if programme_li %}
+    <ul>
+    {% for pr in programme_li %}
+        <li><a href="{{ pr }}/">{{ pr.programme_code }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Sorry No Course List is Available</p>
+{% endif %}
+</body>
+</html>

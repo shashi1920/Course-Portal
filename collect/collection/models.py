@@ -1,13 +1,12 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Profile(models.Model):
-    email = models.EmailField(null=False, blank=False, primary_key=True)
-    name = models.CharField(max_length=150)
+    user = models.OneToOneField(User)
     level = models.IntegerField(max_length=1) #Level 0 is Professor, Level 1 is for HODs
 
     def __str__(self):              # __unicode__ on Python 2
-        return self.name
+        return self.user.username
 
 class dept(models.Model):
     dept_code = models.CharField(max_length=2, primary_key=True)
