@@ -28,3 +28,27 @@ def pro_course_list(request, kr, pro):
     return  render(request,'collection/course_list.html',context)
 
 # Create your views here.
+
+
+
+
+
+#for log in
+from django.contrib.auth import authenticate, login
+
+def my_view(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+
+
+
+
+#for logging out
+from django.contrib.auth import logout
+
+def logout_view(request):
+        logout(request)
+        return HttpResponseRedirect('/index')
+
+    
