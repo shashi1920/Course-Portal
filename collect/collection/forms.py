@@ -7,4 +7,4 @@ from django.forms import ModelForm
 class proposecourselistForm(ModelForm):
     class Meta:
         model=ProposedCourseList
-        fields= ('course_code','course_name','syllabus',)
+        fields= ('course_code','programme','course_name','syllabus',)
