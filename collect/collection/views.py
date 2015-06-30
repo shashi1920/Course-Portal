@@ -31,15 +31,23 @@ def pro_course_list(request, kr, pro):
 
 from django.contrib.auth import authenticate, login
 def login(request):
-    username = request.POST['username']
-    password = request.POST['password']
-    user = authenticate(username=username, password=password)
-    if user is not None:
-        #redirect to success page
-        return render(request,'collection/index.html')
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+
+        if user is not None:
+            #redirect to success page
+            login(request, user)
+            return render(request,'collection/index.html')
+
+        else:
+            #redirect to this page again
+            return HttpResponse("Invalid login details supplied.")
+
     else:
-        #redirect to this page again
-        return render ('registration/logged_out.html')
+        return render('registration/mylogin.html'}
+    return render(request, 'registration/mylogin.html', {'form': form,})
 
 from django.contrib.auth import logout
 def logout(request):
