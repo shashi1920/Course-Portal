@@ -36,23 +36,21 @@ def login(request):
         password = request.POST['password']
         user = authenticate(username=username, password=password)
 
-        if user is not None:
-            #redirect to success page
+        if user is not None:         #redirect to success page
             login(request, user)
-            return render(request,'collection/index.html')
+            return render(request,'collection/programme/CSE.html')
 
-        else:
-            #redirect to this page again
-            return HttpResponse("Invalid login details supplied.")
-
-    else:
-        return render('registration/mylogin.html'}
-    return render(request, 'registration/mylogin.html', {'form': form,})
+        else:                        # when user failed to authenticate.
+            return redirect ('/')
+# have to add a context here.
+    else:                             # this is for GET method.
+        return redirect ('/')
+    return render(request, 'registration/mylogin.html',context) 
 
 from django.contrib.auth import logout
 def logout(request):
      logout(request)
-     return HttpResponseRedirect('registration/logged_out.html')
+     return HttpResponse('registration/logged_out.html')
 
 from collection.forms import proposecourselistForm
 def proposecourse(request):
