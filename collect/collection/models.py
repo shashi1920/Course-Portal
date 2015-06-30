@@ -11,7 +11,7 @@ class Profile(models.Model):
 class dept(models.Model):
     dept_code = models.CharField(max_length=2, primary_key=True)
     dept_name = models.CharField(max_length=150)
-    head = models.ForeignKey(Profile)  # HOD
+    head = models.ForeignKey(Profile,unique=True)  # HOD
     def __str__(self):              # __unicode__ on Python 2
         return self.dept_name
 
@@ -47,6 +47,7 @@ class ApprovedCourseList(models.Model):
     level_0 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_0_list')
     level_1 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_1_list')
     level_2 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_2_list')
+    semester=models.IntegerField(max_length=2)
     def __str__(self):              # __unicode__ on Python 2
         return self.course_code
 
@@ -83,7 +84,6 @@ class ApprovedCourseTeaching(models.Model):
     prof_id1 = models.ForeignKey(Professor)
     semester = models.IntegerField(max_length=2)
     programme = models.ForeignKey(programme)
-    course = models.CharField(max_length=10)
     date_added=models.DateTimeField(auto_now=True)
     prof_id2 = models.ForeignKey(Professor, null=True, blank=True, related_name='prof_id2')
     prof_id3 = models.ForeignKey(Professor, null=True, blank=True, related_name='prof_id3')

@@ -7,15 +7,34 @@
 </head>
 <body>
   {% block body  %}
+
   <h2>Welcome HOD of {{ deptm.dept_name }}</h2>
   <h4> Here are the programmes offered in your department</h4>
 
     {% if programme_li %}
-    <ul>
+    <ul id="tree1">
     {% for pr in programme_li %}
-        <li><a href="{{ pr.programme_code }}/">{{ pr.programme_name }}</a></li>
+
+
+                <li><a href="#">{{ pr.programme_code }} {{ pr.programme_name }}</a>
+
+                    <ul>
+                        <li>Even Semester
+                        <ul>
+                                <li>{{ even }}</li>
+                            </ul>
+                        </li>
+                        <li>Odd Semester
+                            <ul>
+                                <li>Reports</li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </li>
+
     {% endfor %}
-    </ul>
+
 {% else %}
     <p>Sorry No Course List is Available</p>
 {% endif %}
