@@ -28,3 +28,15 @@ def pro_course_list(request, kr, pro):
     return  render(request,'collection/course_list.html',context)
 
 # Create your views here.
+
+
+from collection.forms import proposecourselistForm
+def proposecourse(request):
+    if request.method == 'GET':
+        form = proposecourselistForm()    # creating a empty form.
+    else:
+        form = proposecourselistForm(request.POST) # Bind data from request.POST into a proposecourselistForm instance form
+        if form.is_valid():
+            propose_course = form.save()
+            return HttpResponseRedirect('/thanks/')
+    return render(request, 'collection/proposecourse.html', {'form': form,})
