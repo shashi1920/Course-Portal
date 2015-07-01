@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .models import Professor
 from .models import Profile
 from .models import dept
@@ -63,6 +63,11 @@ def login_user(request):
             state = "Your username and/or password were incorrect."
 
     return render(request, 'registration/login.html',{'state':state})
+
+def logout_user(request):
+    if request.user.is_authenticated():
+        logout(request)
+    return render(request, 'registration/logged_out.html')
 
 
 def add_teacher(request, kr, pro,sem):
