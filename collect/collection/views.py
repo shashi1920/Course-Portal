@@ -29,28 +29,6 @@ def pro_course_list(request, kr, pro):
 
 # Create your views here.
 
-from django.contrib.auth import authenticate, login
-def login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
-
-        if user is not None:         #redirect to success page
-            login(request, user)
-            return render(request,'collection/programme/CSE.html')
-
-        else:                        # when user failed to authenticate.
-            return redirect ('/')
-# have to add a context here.
-    else:                             # this is for GET method.
-        return redirect ('/')
-    return render(request, 'registration/mylogin.html',context) 
-
-from django.contrib.auth import logout
-def logout(request):
-     logout(request)
-     return HttpResponse('registration/logged_out.html')
 
 from collection.forms import proposecourselistForm
 def proposecourse(request):
