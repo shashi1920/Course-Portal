@@ -1,27 +1,31 @@
-{% load staticfiles %}
+<!--{% load staticfiles %}-->
 <link href="{% static 'collection/bootstrap.min.css' %}" rel="stylesheet">
-<link href="{% static 'collection/main.css' %}" rel="stylesheet">
 <script src="{% static 'collection/js/main.js' %}"></script>
+<link href="{% static 'collection/loginform.css' %}" rel="stylesheet">
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="wrap">
                 <p class="form-title">
                     Sign In</p>
-                    {% if form.errors %}
+                    <!--{% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-                <form class="login" method="post" action="{% url 'django.contrib.auth.views.login' %}">
+{% endif %}-->
+                <div class="wrap">
+                    <p class="form-error"><strong>{{ state }}</strong></p>
+                </div>
+                <form class="login" method="post" action="/login/">
                 {% csrf_token %}
-                <input type="text" placeholder="Username" />
-                <input type="password" placeholder="Password" />
+                <input type="text" name="username" placeholder="Username" />
+                <input type="password" name="pass" placeholder="Password" />
                 <input type="submit" value="Sign In" class="btn btn-success btn-sm" />
                 <div class="remember-forgot">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" />
+                                    <input name="remember" type="checkbox" />
                                     Remember Me
                                 </label>
                             </div>

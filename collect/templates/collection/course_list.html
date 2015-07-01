@@ -1,5 +1,4 @@
 {% extends "collection/index.html" %}
-<!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -7,16 +6,77 @@
 </head>
 <body>
   {% block body  %}
-<h3> Currently Viewing Native Courses of <i> {{ programme_li.programme_name }} {{ programme_li.duration }} Year, {{ programme_li.branch }} </i></h3>
+<div class="row">
+<h3>Native Courses of <i> {{ programme_li.programme_name }} {{ programme_li.duration }} Year, {{ programme_li.branch }} {{ semester }}th Sem</i></h3>
 {% if course_li %}
-    <ul>
-    {% for pr in course_li %}
-        <li><a href="{{ pr }}/">{{ pr.course_name }}</a></li>
-    {% endfor %}
-    </ul>
+  <br>
+    <form action="submit/" method="post">
+        {% csrf_token %}
+        {% for pr in course_li %}
+<div class="col-sm-12">
+    <br>
+
+
+<li> <h4> Course Name :
+
+
+    {{pr}} {{ pr.course_name }} (Credits : {{ pr.credit }})</h4> </li>
+    <input type="hidden" name="course_c" value="{{ pr }}" />
+
+</div>
+    <div class="col-sm-3">
+        <h4>Convener Name</h4>
+        <select name="cname{{pr}}" class="form-control">
+            <option disabled selected> -- select a professor -- </option>
+        {% for professor in professors %}
+            <option value="{{ professor.prof_id }}">{{ professor.prof_name }}</option>
+            {% endfor %}
+            </select>
+</div>
+            <div class="col-sm-3">
+        <h4>Other Faculty </h4>
+
+        <select name="p1name{{pr}}" class="form-control">
+            <option disabled selected> -- optional select -- </option>
+        {% for professor in professors %}
+            <option value="{{ professor.prof_id }}">{{ professor.prof_name }}</option>
+            {% endfor %}
+            </select>
+</div>
+            <div class="col-sm-3">
+        <h4>Other Faculty</h4>
+
+        <select name="p2name{{pr}}" class="form-control">
+            <option disabled selected> -- optional select -- </option>
+        {% for professor in professors %}
+            <option value="{{ professor.prof_id }}">{{ professor.prof_name }}</option>
+            {% endfor %}
+            </select>
+</div>
+                    <div class="col-sm-3">
+        <h4>Other Faculty</h4>
+
+        <select name="p3name{{pr}}" class="form-control">
+            <option disabled selected> -- optional select -- </option>
+        {% for professor in professors %}
+            <option value="{{ professor.prof_id }}">{{ professor.prof_name }}</option>
+            {% endfor %}
+            </select>
+</div>
+        {% endfor %}
+
+         <button type="submit" class="btn pull-right" value="submit">Submit</button>
+    </form>
 {% else %}
     <p>Sorry No Course List is Available</p>
 {% endif %}
+    </div>
+
+
+
+
+
+
 {% endblock %}
 </body>
 </html>

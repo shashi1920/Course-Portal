@@ -1,5 +1,4 @@
 {% extends "collection/index.html" %}
-<!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
@@ -7,18 +6,63 @@
 </head>
 <body>
   {% block body  %}
+
   <h2>Welcome HOD of {{ deptm.dept_name }}</h2>
   <h4> Here are the programmes offered in your department</h4>
-
+<br>
     {% if programme_li %}
-    <ul>
+    <ul id="tree1">
     {% for pr in programme_li %}
-        <li><a href="{{ pr.programme_code }}/">{{ pr.programme_name }}</a></li>
+
+
+                <li><a href="#"> {{ pr.programme_code }} - {{ pr.programme_name }} {{ pr.duration }} Years Course </a>
+
+                    <ul>
+
+                        <li>Odd Semester
+
+                            <ul>
+                                 <script>
+    var a={{ pr.duration }}
+    for (i = 1; i <=2*a; i=i+2) {
+      document.write("<li><a href='{{ pr.programme_code }}/"+i+"'>");
+      document.write(i);
+      document.write("</a></li>");
+    }
+
+
+</script>
+                            </ul>
+                        </li>
+                        <li>Even Semester
+
+                        <ul>
+                                <script>
+    var a={{ pr.duration }}
+    for (i = 2; i <=2*a; i=i+2) {
+           document.write("<li><a href='{{ pr.programme_code }}/"+i+"'>");
+      document.write(i);
+      document.write("</a></li>");
+    }
+
+
+</script>
+                            </ul>
+                        </li>
+
+                    </ul>
+                    <br>
+                </li>
+
     {% endfor %}
-    </ul>
+
+</ul>
+
 {% else %}
     <p>Sorry No Course List is Available</p>
 {% endif %}
+
+
 {% endblock %}
 </body>
 </html>
