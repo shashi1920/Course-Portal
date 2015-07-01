@@ -15,7 +15,7 @@
                 <div class="wrap">
                     <p class="form-error"><strong>{{ state }}</strong></p>
                 </div>
-                <form class="login" method="post" action="/login/">
+                <form class="login" method="post" action="{% url 'login_user' %}">
                 {% csrf_token %}
                 <input type="text" name="username" placeholder="Username" />
                 <input type="password" name="pass" placeholder="Password" />

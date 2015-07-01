@@ -16,7 +16,9 @@
             <div class="wrap">
                 <p class="form-title">
                     Logged out!</p>
-           
+            <form action="{% url 'login_user' %}" class="login" >
+                <input type="submit" value="Log In again" class="btn btn-info">
+            </form>
 
 
 
