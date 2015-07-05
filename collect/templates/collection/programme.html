@@ -1,14 +1,8 @@
 {% extends "collection/index.html" %}
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
   {% block body  %}
-
-  <h2>Welcome HOD of {{ deptm.dept_name }}</h2>
-  <h4> Here are the programmes offered in your department</h4>
+<div class="row">
+  <h1>Welcome HOD of {{ deptm.dept_name }}</h1>
+  <h3>Programmes Offered in Your Department</h3>
 <br>
     {% if programme_li %}
     <ul id="tree1">
@@ -59,10 +53,27 @@
 </ul>
 
 {% else %}
-    <p>Sorry No Course List is Available</p>
+    <p>Sorry No Programme is Available</p>
 {% endif %}
 
 
+
+
+</div>
+  {% if activity_log %}
+  	<div class="row">
+        <h3>Recent Activities:</h3>
+		<div class="error-notice">
+
+        {% for log in activity_log %}
+
+          <div class="oaerror info">
+            <strong>{{log.date_time}}</strong>  : {{log}}
+          </div>
+    {% endfor %}
+        </div>
+	</div>
+    {% endif %}
 {% endblock %}
 </body>
 </html>

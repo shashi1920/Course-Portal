@@ -1,0 +1,20 @@
+{% extends "collection/index.html" %}
+  {% block body  %}
+
+  {% if activity_log %}
+  	<div class="row">
+        <h3>All Recent Activities:</h3>
+		<div class="error-notice">
+
+        {% for log in activity_log %}
+
+          <div class="oaerror info">
+            <strong>{{log.date_time}}</strong>  : {{log}}
+          </div>
+    {% endfor %}
+        </div>
+	</div>
+    {% endif %}
+{% endblock %}
+</body>
+</html>

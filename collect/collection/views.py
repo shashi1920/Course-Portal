@@ -12,18 +12,20 @@ from .models import ApprovedCourseList
 from .models import ApprovedCourseTeaching
 from .models import ForeignCourseList
 from django.contrib import messages
+from .models import ActivityLog
 def index(request):
     return render(request, 'collection/index.html')
 
 def programme_list(request, br):
     if not request.user.is_authenticated():
         return render(request,'registration/denied.html')
-    profile = Profile.objects.filter(user=request.user)
+    profile = Profile.objects.get(user=request.user)
     if len(dept.objects.filter(head=profile))==0 or str(dept.objects.filter(head=profile)[0].dept_code) != br:
         return render(request,'registration/denied.html')
     pr=programme.objects.filter(branch=br)
     dr=dept.objects.get(dept_code=br)
-    context={'programme_li' : pr,'deptm': dr}
+    activity_log=ActivityLog.objects.filter(USER=profile)[:5]
+    context={'programme_li' : pr,'deptm': dr,'activity_log':activity_log}
     #return HttpResponse(br)
     return render(request,'collection/programme.html',context)
 
@@ -88,7 +90,7 @@ def logout_user(request):
 def add_teacher(request, kr, pro,sem):
     if not request.user.is_authenticated():
         return render(request,'registration/denied.html')
-    profile = Profile.objects.filter(user=request.user)
+    profile = Profile.objects.get(user=request.user)
     if len(dept.objects.filter(head=profile))==0 or str(dept.objects.filter(head=profile)[0].dept_code) != kr:
         return render(request,'registration/denied.html')
     errors=[]
@@ -163,7 +165,11 @@ def add_teacher(request, kr, pro,sem):
                 p3_id=Professor.objects.get(prof_id=p3_name)
                 p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_id,prof_id3=p2_id,prof_id4=p3_id,semester=sem,programme=pr,elect_or_comp=1)
 
+
                 p.save()
+                log_message="Successfully Added Faculty Details of "+success
+                log_query=ActivityLog(USER=profile,log=log_message)
+                log_query.save()
                 success=cr.course_code +" "+cr.course_name
                 course_success.append(success)
             elif(p2_name and p1_name and (not er)):
@@ -171,8 +177,11 @@ def add_teacher(request, kr, pro,sem):
                 p2_id=Professor.objects.get(prof_id=p2_name)
                 p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_id,prof_id3=p2_id,semester=sem,programme=pr,elect_or_comp=1)
                 p.save()
-
                 success=cr.course_code +" "+cr.course_name
+                log_message="Successfully Added Faculty Details of "+success
+                log_query=ActivityLog(USER=profile,log=log_message)
+                log_query.save()
+
                 course_success.append(success)
             elif(p1_name and not(er)):
                 p1_id=Professor.objects.get(prof_id=p1_name)
@@ -180,12 +189,19 @@ def add_teacher(request, kr, pro,sem):
                 p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_id,semester=sem,programme=pr,elect_or_comp=1)
                 p.save()
                 success=cr.course_code +" "+cr.course_name
+                log_message="Successfully Added Faculty Details of "+success
+                log_query=ActivityLog(USER=profile,log=log_message)
+                log_query.save()
                 course_success.append(success)
             elif((not er)):
                 p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,semester=sem,programme=pr,elect_or_comp=1)
                 p.save()
                 success=cr.course_code +" "+cr.course_name
+                log_message="Successfully Added Faculty Details of "+success
+                log_query=ActivityLog(USER=profile,log=log_message)
+                log_query.save()
                 course_success.append(success)
+
     error_list=zip(errors,course_error)
     er=False
     url="/programme/"+kr+"/"+pro+"/"+sem+"/"
@@ -195,17 +211,30 @@ def add_teacher(request, kr, pro,sem):
 def delete_teacher(request,br, pro,sem,entry):
     if not request.user.is_authenticated():
         return render(request,'registration/denied.html')
-    profile = Profile.objects.filter(user=request.user)
+    profile = Profile.objects.get(user=request.user)
     if len(dept.objects.filter(head=profile))==0 or str(dept.objects.filter(head=profile)[0].dept_code) != br:
         return render(request,'registration/denied.html')
     pr=programme.objects.get(branch=br,programme_code=pro)
-
-
     entry1=ApprovedCourseTeaching.objects.get(pk=entry)
-    messages.success(request,"Successfully Deleted Faculty Details of "+entry1.course_code.course_code+" " + entry1.course_code.course_name)
+    log_message="Successfully Deleted Faculty Details of "+entry1.course_code.course_code+" " + entry1.course_code.course_name
+
+    p=ActivityLog(USER=profile,log=log_message)
+
     entry1.delete()
+    messages.success(request,log_message)
+    p.save()
     url="/programme/"+br+"/"+pro+"/"+sem
 
     return HttpResponseRedirect(url)
+def activity_log_details(request,br):
+    if not request.user.is_authenticated():
+        return render(request,'registration/denied.html')
+    profile = Profile.objects.get(user=request.user)
+    if len(dept.objects.filter(head=profile))==0 or str(dept.objects.filter(head=profile)[0].dept_code) != br:
+        return render(request,'registration/denied.html')
+    activity_log=ActivityLog.objects.filter(USER=profile)
+    context={'activity_log' : activity_log}
+    return render(request,'collection/activity_log.html',context)
+
 
 # Create your views here.

@@ -44,6 +44,9 @@ class ApprovedCourseList(models.Model):
     syllabus = models.CharField(max_length=2500)
     credit = models.IntegerField(max_length=2)
     programme = models.ForeignKey(programme)
+    l=models.IntegerField(blank=True,null=True)
+    t=models.IntegerField(blank=True,null=True)
+    p=models.IntegerField(blank=True,null=True)
     level_0 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_0_list')
     level_1 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_1_list')
     level_2 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_2_list')
@@ -110,3 +113,9 @@ class ProposedCourseTeaching(models.Model):
     level_2_sign = models.IntegerField(max_length=1)
     def __str__(self):              # __unicode__ on Python 2
         return self.course_code
+class ActivityLog(models.Model):
+    USER=models.ForeignKey(Profile)
+    log=models.CharField(max_length=1500)
+    date_time= models.DateTimeField(auto_now=True)
+    def __str__(self):              # __unicode__ on Python 2
+        return self.log
