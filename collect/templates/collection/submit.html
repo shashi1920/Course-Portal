@@ -36,6 +36,6 @@
         </div>
 	</div>
 {% else %}
-<h1 style="color:green;">Oops! Nothing was Success.... <a href="{{request.META.HTTP_REFERER}}">Go back</a> </h1>
+<h1 style="color:green;">Oops! Nothing was Success.... <a href="{{back_url}}">Go back</a> </h1>
 {% endif %}
 {% endblock %}

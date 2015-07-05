@@ -50,7 +50,8 @@ def pro_course_list(request, kr, pro,sem):
                 course_li.append(cr)
             flag=1
     prof=Professor.objects.all().order_by('prof_name')
-    context={'programme_li' : pr ,'course_li' : course_li,'professors':prof,'semester':sem,'teaching' : teaching}
+    url="/programme/"+kr+"/"+pro+"/"+sem+"/"
+    context={'programme_li' : pr ,'course_li' : course_li,'professors':prof,'semester':sem,'teaching' : teaching,'url':url}
     return  render(request,'collection/course_list.html',context)
 
 def login_user(request):
@@ -181,10 +182,12 @@ def add_teacher(request, kr, pro,sem):
                 course_success.append(success)
     error_list=zip(errors,course_error)
     er=False
-    context={'errors': error_list,'course_success':course_success}
+    url="/programme/"+kr+"/"+pro+"/"+sem+"/"
+    context={'errors': error_list,'course_success':course_success,'back_url':url}
     return render(request,'collection/submit.html',context)
 
-
-
-
+def delete_teacher(request,br, pro,sem,entry):
+    pr=programme.objects.get(branch=br,programme_code=pro)
+    entry1=ApprovedCourseTeaching.objects.get(pk=entry)
+    entry1.delete()
 # Create your views here.

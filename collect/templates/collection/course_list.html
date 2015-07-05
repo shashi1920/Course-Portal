@@ -77,7 +77,7 @@
 <h3> Assigned Native Course List</h3>
 <ul>
 {% for teach in teaching %}
-<li type="1"><b>{{teach.course_code }} :{{ teach.course_code.course_name}}  <a href="" class="pull-right">Delete</a> </b> <br>
+<li type="1"><b>{{teach.course_code }} :{{ teach.course_code.course_name}}  <a href="{{url}}{{teach.pk}}" class="pull-right">Delete</a> </b> <br>
 Convener's Name: {{ teach.prof_id1 }} {% if teach.prof_id2 %} {{teach.prof_id2}} {% endif %} {% if teach.prof_id3 %} {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %} {{teach.prof_id4}}{% endif %}</li>
 
 {% endfor %}
