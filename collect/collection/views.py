@@ -85,6 +85,8 @@ def logout_user(request):
 
 def add_teacher(request, kr, pro,sem):
     errors=[]
+    course_error=[]
+    course_success=[]
     pr=programme.objects.get(branch=kr,programme_code=pro)
     courses=ApprovedCourseList.objects.filter(programme=pr,semester=sem)
     prof=Professor.objects.all().order_by('prof_name')
@@ -94,6 +96,8 @@ def add_teacher(request, kr, pro,sem):
     global flag
     flag=1
     course_li=[]
+    global er
+    er=False
     if courses:
         for cr in courses:
             if teaching:
@@ -107,19 +111,78 @@ def add_teacher(request, kr, pro,sem):
         conevner_form="cname_"+cr.course_code
         con_name= request.POST.get(conevner_form)
 
-        p1_form="p1name_"+cr.course_code
+        p1_form="p1name"+cr.course_code
         p1_name=request.POST.get(p1_form)
-        p2_form="p1name_"+cr.course_code
-        p1_name=request.POST.get(p1_form)
+        p2_form="p2name"+cr.course_code
+        p2_name=request.POST.get(p2_form)
+        p3_form="p3name"+cr.course_code
+        p3_name=request.POST.get(p3_form)
         if con_name:
             cn=Professor.objects.get(prof_id=con_name)
+            if (con_name==p1_name or con_name==p2_name or con_name==p3_name):
+                er1="You have selected same Convener name as other faculty "
+                errors.append(er1)
+                er1=cr.course_code +" "+cr.course_name
+                course_error.append(er1)
+                er=True
+            if((not p2_name) and (p3_name)):
+                er1="Select 2nd Faculty First Then 3rd Faculty "
+                errors.append(er1)
+                er1=cr.course_code +" "+cr.course_name
+                course_error.append(er1)
+                er=True
+            if((not p1_name) and (p2_name)):
+                er1="Select 1st Faculty First Then Select 2nd Faculty "
+                errors.append(er1)
+                er1=cr.course_code +" "+cr.course_name
+                course_error.append(er1)
+                er=True
+            if((not p1_name) and (p3_name)):
+                er1="Select 1st Faculty First Then Select 3rd Faculty "
+                errors.append(er1)
+                er1=cr.course_code +" "+cr.course_name
+                course_error.append(er1)
+                er=True
+            if((p1_name==p2_name and p1_name) or (p3_name==p1_name and p3_name)) or (p2_name==p3_name and p3_name):
+                er1="You have selected same faculty "
+                errors.append(er1)
+                er1=cr.course_code +" "+cr.course_name
+                course_error.append(er1)
+                er=True
+            #Succesful COurses Now
+            if(p3_name and p2_name and p1_name and (not er)):
+                p1_id=Professor.objects.get(prof_id=p1_name)
+                p2_id=Professor.objects.get(prof_id=p2_name)
+                p3_id=Professor.objects.get(prof_id=p3_name)
+                p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_id,prof_id3=p2_id,prof_id4=p3_id,semester=sem,programme=pr,elect_or_comp=1)
 
-        p1_id=Professor.objects.get(prof_id=p1_name)
-        p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_name,semester=sem,programme=pr,elect_or_comp=1)
-        p.save()
+                p.save()
+                success=cr.course_code +" "+cr.course_name
+                course_success.append(success)
+            elif(p2_name and p1_name and (not er)):
+                p1_id=Professor.objects.get(prof_id=p1_name)
+                p2_id=Professor.objects.get(prof_id=p2_name)
+                p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_id,prof_id3=p2_id,semester=sem,programme=pr,elect_or_comp=1)
+                p.save()
 
+                success=cr.course_code +" "+cr.course_name
+                course_success.append(success)
+            elif(p1_name and not(er)):
+                p1_id=Professor.objects.get(prof_id=p1_name)
 
-    return render(request,'collection/submit.html')
+                p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_id,semester=sem,programme=pr,elect_or_comp=1)
+                p.save()
+                success=cr.course_code +" "+cr.course_name
+                course_success.append(success)
+            elif((not er)):
+                p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,semester=sem,programme=pr,elect_or_comp=1)
+                p.save()
+                success=cr.course_code +" "+cr.course_name
+                course_success.append(success)
+    error_list=zip(errors,course_error)
+    er=False
+    context={'errors': error_list,'course_success':course_success}
+    return render(request,'collection/submit.html',context)
 
 
 

@@ -1,12 +1,41 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-{{course_code}}
-<br>
+{% extends "collection/index.html" %}
+ {% block body  %}
+{% if errors %}
 
-</body>
-</html>
+
+
+	<div class="row">
+     <br><br>
+		<div class="error-notice">
+                 <h1 style="color:red;">You have Following Errors: </h1>
+            {% for error in errors %}
+          <div class="oaerror danger">
+
+
+            <strong>Error</strong> {{ error.0}} in <b>{{error.1}}</b>
+              <br>
+
+
+
+          </div>
+{% endfor %}
+        </div>
+	</div>
+{% endif %}
+{% if course_success %}
+	<div class="row">
+     <br><br>
+		<div class="error-notice">
+<h1 style="color:green;"> Following actions were successful </h1>
+ {% for courses in course_success %}
+          <div class="oaerror success">
+            <strong>Success</strong> - You have successfully updated Convener and Other Faculty For <b> {{courses}} </b>
+
+          </div>
+            {% endfor %}
+        </div>
+	</div>
+{% else %}
+<h1 style="color:green;">Oops! Nothing was Success.... <a href="{{request.META.HTTP_REFERER}}">Go back</a> </h1>
+{% endif %}
+{% endblock %}
