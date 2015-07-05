@@ -93,7 +93,7 @@ class ApprovedCourseTeaching(models.Model):
     level_1 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_1_teaching')
     level_2 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_2_teaching')
     def __str__(self):              # __unicode__ on Python 2
-        return self.course_code
+        return str(self.application_no)
 
 class ProposedCourseTeaching(models.Model):
     application_no = models.AutoField(primary_key=True)

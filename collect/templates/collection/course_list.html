@@ -16,17 +16,16 @@
 <div class="col-sm-12">
     <br>
 
+<h4> {{forloop.counter}}.Course Name :
 
-<li> <h4> Course Name :
 
-
-    {{pr}} {{ pr.course_name }} (Credits : {{ pr.credit }})</h4> </li>
-    <input type="hidden" name="course_c" value="{{ pr }}" />
+    <b> {{pr}} {{ pr.course_name }} </b> (Credits : {{ pr.credit }})</h4>
+    <input type="hidden" name="course_code_{{pr.course_code}}" value="{{ pr }}" />
 
 </div>
     <div class="col-sm-3">
         <h4>Convener Name</h4>
-        <select name="cname{{pr}}" class="form-control">
+        <select name="cname_{{pr.course_code}}" class="form-control">
             <option disabled selected> -- select a professor -- </option>
         {% for professor in professors %}
             <option value="{{ professor.prof_id }}">{{ professor.prof_name }}</option>
@@ -70,11 +69,20 @@
 {% else %}
     <p>Sorry No Course List is Available</p>
 {% endif %}
+
+
     </div>
+    
+{% if teaching %}
+<h3> Assigned Native Course List</h3>
+<ul>
+{% for teach in teaching %}
+<li type="1"><b>{{teach.course_code }} :{{ teach.course_code.course_name}}  <a href="" class="pull-right">Delete</a> </b> <br>
+Convener's Name: {{ teach.prof_id1 }} {% if teach.prof_id2 %} {{teach.prof_id2}} {% endif %} {% if teach.prof_id3 %} {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %} {{teach.prof_id4}}{% endif %}</li>
 
-
-
-
+{% endfor %}
+</ul>
+{% endif %}
 
 
 {% endblock %}

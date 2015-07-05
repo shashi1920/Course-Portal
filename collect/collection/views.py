@@ -35,9 +35,22 @@ def pro_course_list(request, kr, pro,sem):
     pr=programme.objects.get(branch=kr,programme_code=pro)
     #msg=br+PR
     #return HttpResponse(pro)
+    teaching=ApprovedCourseTeaching.objects.filter(programme=pr,semester=sem)
     courses=ApprovedCourseList.objects.filter(programme=pr,semester=sem)
+    global flag
+    flag=1
+    course_li=[]
+    if courses:
+        for cr in courses:
+            if teaching:
+                for teach in teaching:
+                    if teach.course_code.course_code==cr.course_code:
+                        flag=0
+            if(flag==1):
+                course_li.append(cr)
+            flag=1
     prof=Professor.objects.all().order_by('prof_name')
-    context={'programme_li' : pr ,'course_li' : courses,'professors':prof,'semester':sem}
+    context={'programme_li' : pr ,'course_li' : course_li,'professors':prof,'semester':sem,'teaching' : teaching}
     return  render(request,'collection/course_list.html',context)
 
 def login_user(request):
@@ -77,11 +90,35 @@ def add_teacher(request, kr, pro,sem):
     prof=Professor.objects.all().order_by('prof_name')
     #if request.method=='POST':
      #   form=
-    for cr in courses:
-        con_name= request.POST.get('("cname"+cr.course_code)')
+    teaching=ApprovedCourseTeaching.objects.filter(programme=pr,semester=sem)
+    global flag
+    flag=1
+    course_li=[]
+    if courses:
+        for cr in courses:
+            if teaching:
+                for teach in teaching:
+                    if teach.course_code.course_code==cr.course_code:
+                        flag=0
+            if(flag==1):
+                course_li.append(cr)
+            flag=1
+    for cr in course_li:
+        conevner_form="cname_"+cr.course_code
+        con_name= request.POST.get(conevner_form)
+
+        p1_form="p1name_"+cr.course_code
+        p1_name=request.POST.get(p1_form)
+        p2_form="p1name_"+cr.course_code
+        p1_name=request.POST.get(p1_form)
         if con_name:
-            p=ApprovedCourseTeaching(course_code=cr,prof_id1=con_name,semester=sem,programme=pr,elect_or_comp=1)
-            p.save()
+            cn=Professor.objects.get(prof_id=con_name)
+
+        p1_id=Professor.objects.get(prof_id=p1_name)
+        p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_name,semester=sem,programme=pr,elect_or_comp=1)
+        p.save()
+
+
     return render(request,'collection/submit.html')
 
 
