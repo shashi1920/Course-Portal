@@ -13,5 +13,5 @@ urlpatterns = patterns('',
     url(r'^programme/(?P<br>[A-Za-z]{2})/$', 'collection.views.programme_list', name='programme_list'),
     url(r'^programme/(?P<kr>[A-Za-z]{2})/(?P<pro>[A-Za-z]+)/(?P<sem>\d+)/$', 'collection.views.pro_course_list'),
     url(r'^programme/(?P<kr>[A-Za-z]{2})/(?P<pro>[A-Za-z]+)/(?P<sem>\d+)/submit/$', 'collection.views.add_teacher'),
-    url(r'^programme/(?P<kr>[A-Za-z]{2})/(?P<pro>[A-Za-z]+)/(?P<sem>\d+)/delete/(?P<entry>\d+)/$', 'collection.views.delete_teacher')
+    url(r'^programme/(?P<br>[A-Za-z]{2})/(?P<pro>[A-Za-z]+)/(?P<sem>\d+)/delete/(?P<entry>\d+)/$', 'collection.views.delete_teacher')
 )

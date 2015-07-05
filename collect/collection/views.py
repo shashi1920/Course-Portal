@@ -11,6 +11,7 @@ from .models import ProposedCourseTeaching
 from .models import ApprovedCourseList
 from .models import ApprovedCourseTeaching
 from .models import ForeignCourseList
+from django.contrib import messages
 def index(request):
     return render(request, 'collection/index.html')
 
@@ -85,6 +86,11 @@ def logout_user(request):
 
 
 def add_teacher(request, kr, pro,sem):
+    if not request.user.is_authenticated():
+        return render(request,'registration/denied.html')
+    profile = Profile.objects.filter(user=request.user)
+    if len(dept.objects.filter(head=profile))==0 or str(dept.objects.filter(head=profile)[0].dept_code) != kr:
+        return render(request,'registration/denied.html')
     errors=[]
     course_error=[]
     course_success=[]
@@ -187,7 +193,19 @@ def add_teacher(request, kr, pro,sem):
     return render(request,'collection/submit.html',context)
 
 def delete_teacher(request,br, pro,sem,entry):
+    if not request.user.is_authenticated():
+        return render(request,'registration/denied.html')
+    profile = Profile.objects.filter(user=request.user)
+    if len(dept.objects.filter(head=profile))==0 or str(dept.objects.filter(head=profile)[0].dept_code) != br:
+        return render(request,'registration/denied.html')
     pr=programme.objects.get(branch=br,programme_code=pro)
+
+
     entry1=ApprovedCourseTeaching.objects.get(pk=entry)
+    messages.success(request,"Successfully Deleted Faculty Details of "+entry1.course_code.course_code+" " + entry1.course_code.course_name)
     entry1.delete()
+    url="/programme/"+br+"/"+pro+"/"+sem
+
+    return HttpResponseRedirect(url)
+
 # Create your views here.
