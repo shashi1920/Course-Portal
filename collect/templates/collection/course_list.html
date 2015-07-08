@@ -27,6 +27,74 @@
 
 
 <div class="row">
+    {% if teaching %}
+<h3> Assigned Native Course List</h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Course Code</th>
+        <th>Course Name</th>
+        <th>Convener Name</th>
+          <th>Other Faculties</th>
+          <th>Action</th>
+      </tr>
+    </thead>
+
+     <tbody>
+{% for teach in teaching %}
+        <div class="modal fade" id="confirm-delete{{teach}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to delete faculty details of  <i><b> {{teach.course_code}} {{teach.course_code.course_name}}</b></i>
+                        <br>
+                        <b>Convener's Name: </b>{{ teach.prof_id1 }} {% if teach.prof_id2 %} <b>Other Faculty: </b>{{teach.prof_id2}} {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %} <br>
+                        Note that this procedure is irreversible. But You can re-update it Later</p>
+                    <p>Do you want to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok" href="{{urs}}delete/{{teach.pk}}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+     <tr><td>{{teach.course_code }}</td>
+     <td>{{ teach.course_code.course_name}}</td>
+    <td>{{ teach.prof_id1 }}</td>
+<td>{% if teach.prof_id2 %} {{teach.prof_id2}} {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %}</li>
+<br></td>
+     <td>  <center><button class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete{{teach}}">
+        Delete This
+    </button></center></td></tr>
+
+
+
+    <script>
+        $('#confirm-delete{{teach}}').on('show.bs.modal', function(e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+
+            $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
+        });
+    </script>
+{% endfor %}
+</tbody>
+       </table>
+   <center> <a href="print" class="btn btn-lg btn-primary">Go To Print Page &nbsp;<span class="glyphicon glyphicon-print"></span></a></center><br><br>
+{% endif %}
+
+
 <h3>Native Courses of <i> {{ programme_li.programme_name }} {{ programme_li.duration }} Year, {{ programme_li.branch }} {{ semester }}th Sem</i></h3>
 {% if course_li %}
   <br>
@@ -92,56 +160,6 @@
 
 
     </div>
-
-{% if teaching %}
-<h3> Assigned Native Course List</h3>
-<ul>
-{% for teach in teaching %}
-        <div class="modal fade" id="confirm-delete{{teach}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
-                </div>
-
-                <div class="modal-body">
-                    <p>You are about to delete faculty details of  <i><b> {{teach.course_code}} {{teach.course_code.course_name}}</b></i>
-                        <br>
-                        <b>Convener's Name: </b>{{ teach.prof_id1 }} {% if teach.prof_id2 %} <b>Other Faculty: </b>{{teach.prof_id2}} {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %} <br>
-                        Note that this procedure is irreversible. But You can re-update it Later</p>
-                    <p>Do you want to proceed?</p>
-                    <p class="debug-url"></p>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-danger btn-ok" href="{{urs}}delete/{{teach.pk}}">Delete</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-<li type="1">{{teach.course_code }} :{{ teach.course_code.course_name}}
-       <button class="btn pull-right" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete{{teach}}">
-        Delete This
-    </button>
-    <br>
-<b>Convener's Name: </b>{{ teach.prof_id1 }} {% if teach.prof_id2 %} <b>Other Faculty: </b>{{teach.prof_id2}} {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %}</li>
-<br>
-    <script>
-        $('#confirm-delete{{teach}}').on('show.bs.modal', function(e) {
-            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-
-            $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
-        });
-    </script>
-{% endfor %}
-</ul>
-{% endif %}
 
 
 

@@ -1,0 +1,113 @@
+{% extends "collection/index.html" %}
+  {% block body  %}
+{% if messages %}
+<div class="row">
+        <br><br>
+    		<div class="error-notice">
+{% if messages %}
+
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+    <div class="oaerror success">
+
+        <strong>SUCCESS</strong> - {{ message }}
+        </div>
+     {% endif %}
+
+    {% endfor %}
+
+{% endif %}
+    </div>
+    		<div class="error-notice">
+{% if messages %}
+
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+    <div class="oaerror danger">
+
+        <strong>Error</strong> - {{ message }}
+        </div>
+{% endif %}
+    {% endfor %}
+
+{% endif %}
+    </div>
+	</div>
+{% endif %}
+
+<div class="row">
+    <h3>Courses of Semester {{semester}} Offered To Other Departments</h3>
+    {% if course_offered_from %}
+      <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Course Code</th>
+        <th>Course Name</th>
+        <th>To Programme</th>
+          <th>To Semester</th>
+          <th>Credits</th>
+          <th>LTP</th>
+
+      </tr>
+    </thead>
+       <tbody>
+    {% for courses in course_offered_from %}
+            <div class="modal fade" id="confirm-delete{{courses.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to delete a Offered Course  <i><b> {{courses.course_code}} {{courses.course.course_name}}</b></i>
+                        <br>
+                        To Programme : <b> {{ courses.programme.programme_name }}, {{ courses.programme.branch.dept_name }} </b>
+                        <br>
+                        Note that this procedure is irreversible. But You can re-update it Later</p>
+                    <p>Do you want to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok" href="{{ request.path }}delete/{{courses.pk}}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+          <tr>
+   <td>{{courses.course_code}}</td> <td>{{courses.course.course_name}}</td>
+              <td>{{courses.programme.branch}} ({{courses.programme.programme_code}})</td>
+ <td>{{courses.semester}}</td><td>{{courses.credit}}</td><td>{% if courses.l %} {{ courses.l }} {% else %}0 {% endif %}
+    {% if courses.t %} {{ courses.t }} {% else %}0 {% endif %}
+    {% if courses.p %} {{ courses.p }} {% else %}0 {% endif %}</td>
+
+
+          </tr>  {% endfor %}
+</tbody>
+          </table>
+    {% endif %}
+   <center> <input id="printpagebutton" type="button" value="Print this page" onclick="printpage()"/>
+       </center>
+    </tbody>
+
+</div><script>
+    function printpage() {
+        //Get the print button and put it into a variable
+        var printButton = document.getElementById("printpagebutton");
+        //Set the print button visibility to 'hidden'
+        printButton.style.visibility = 'hidden';
+        //Print the page content
+        window.print()
+        //Set the print button to 'visible' again
+        //[Delete this line if you want it to stay hidden after printing]
+        printButton.style.visibility = 'visible';
+    }
+</script>
+{% endblock %}
+</body>
+</html>

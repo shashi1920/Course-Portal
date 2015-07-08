@@ -1,0 +1,160 @@
+{% extends "collection/index.html" %}
+  {% block body  %}
+{% if messages %}
+<div class="row">
+        <br><br>
+    		<div class="error-notice">
+{% if messages %}
+
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+    <div class="oaerror success">
+
+        <strong>SUCCESS</strong> - {{ message }}
+        </div>
+     {% endif %}
+
+    {% endfor %}
+
+{% endif %}
+    </div>
+    		<div class="error-notice">
+{% if messages %}
+
+    {% for message in messages %}
+        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+    <div class="oaerror danger">
+
+        <strong>Error</strong> - {{ message }}
+        </div>
+{% endif %}
+    {% endfor %}
+
+{% endif %}
+    </div>
+	</div>
+{% endif %}
+
+<div class="row">
+    <h3>Courses of Semester {{semester}} Offered To Other Departments</h3>
+    {% if course_offered_from %}
+      <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Course Code</th>
+        <th>Course Name</th>
+        <th>To Programme</th>
+          <th>To Semester</th>
+          <th>Credits</th>
+          <th>LTP</th>
+          <th>Action</th>
+      </tr>
+    </thead>
+       <tbody>
+    {% for courses in course_offered_from %}
+            <div class="modal fade" id="confirm-delete{{courses.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to delete a Offered Course  <i><b> {{courses.course_code}} {{courses.course.course_name}}</b></i>
+                        <br>
+                        To Programme : <b> {{ courses.programme.programme_name }}, {{ courses.programme.branch.dept_name }} </b>
+                        <br>
+                        Note that this procedure is irreversible. But You can re-update it Later</p>
+                    <p>Do you want to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok" href="{{ request.path }}delete/{{courses.pk}}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+          <tr>
+   <td>{{courses.course_code}}</td> <td>{{courses.course.course_name}}</td>
+              <td>{{courses.programme.branch}} ({{courses.programme.programme_code}})</td>
+ <td>{{courses.semester}}</td><td>{{courses.credit}}</td><td>{% if courses.l %} {{ courses.l }} {% else %}0 {% endif %}
+    {% if courses.t %} {{ courses.t }} {% else %}0 {% endif %}
+    {% if courses.p %} {{ courses.p }} {% else %}0 {% endif %}</td>
+              <td><button class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete{{courses.pk}}">
+        Delete This
+    </button></td>
+
+          </tr>  {% endfor %}
+</tbody>
+          </table>
+    {% endif %}
+    <center> <a href="print" class="btn btn-lg btn-primary">Go To Print Page &nbsp;<span class="glyphicon glyphicon-print"></span></a></center><br><br>
+    </tbody>
+
+</div>
+<div class="row">
+
+<h3>Offer a course to other department:</h3>
+
+<form action="submit/" method="post">
+{% csrf_token %}
+{% for i in "321" %}
+    <div class="col-sm-3">
+        <h4>Select a Program</h4>
+        <select name="fr_program{{i}}" class="form-control" id="program{{i}}">
+            <option disabled selected> -- select a program -- </option>
+        {% for pr in programme %}
+            <option value="{{pr.pk}}">{{pr.branch}}({{pr.programme_code}})</option>
+            {% endfor %}
+            </select>
+</div>
+    <div class="col-sm-3">
+        <h4>Select a Course</h4>
+        <select name="fr_course{{i}}" class="form-control">
+            <option disabled selected> -- select a course -- </option>
+        {% for cr in courses %}
+            <option value="{{cr.pk}}">{{cr.course_code}}({{cr.course_name}})</option>
+            {% endfor %}
+            </select>
+</div>
+
+    <div class="col-sm-2">
+        <h4>To Semester</h4>
+        <select id="sem{{i}}" name="sem{{i}}" class="form-control">
+  <option disabled selected>--Select a semester--</option>
+            <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+             <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+             <option  value="7">7</option>
+  <option value="8">8</option>
+  <option value="9">9</option>
+            <option value="10">10</option>
+</select>
+</div>
+
+<div class="col-sm-2">
+    <h4>Credits</h4>
+<input id="textinput" name="credits{{i}}" type="number" placeholder="Enter the number of credits" class="form-control" min="0" max="12">
+</div>
+    <div class="col-sm-2">
+    <h4>LTP</h4>
+<input name="LTP{{i}}" type="number" placeholder="optional" class="form-control" max="121212">
+</div>
+<br>
+
+    {% endfor %}
+
+    <button type="submit" class="btn pull-right" value="submit">Submit</button>
+    </form>
+    </div>
+{% endblock %}
+</body>
+</html>

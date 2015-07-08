@@ -1,0 +1,74 @@
+{% extends "collection/index.html" %}
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+  {% block body  %}
+
+
+
+
+
+
+
+
+<div class="row">
+    {% if teaching %}
+<h3> Native Course List With Faculty, {{programme_li.programme_name}},{{programme_li.branch.dept_name}}  </h3>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Course Code</th>
+        <th>Course Name</th>
+        <th>Convener Name</th>
+          <th>Other Faculties</th>
+
+      </tr>
+    </thead>
+
+     <tbody>
+{% for teach in teaching %}
+
+
+
+     <tr><td>{{teach.course_code }}</td>
+     <td>{{ teach.course_code.course_name}}</td>
+    <td>{{ teach.prof_id1 }}</td>
+<td>{% if teach.prof_id2 %} {{teach.prof_id2}} {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %}</li>
+<br></td>
+</tr>
+
+
+
+{% endfor %}
+</tbody>
+       </table>
+   <center> <input id="printpagebutton" type="button" value="Print this page" onclick="printpage()"/>
+       </center><br><br>
+{% endif %}
+
+
+
+
+    </div>
+
+
+<script type="text/javascript">
+    function printpage() {
+        //Get the print button and put it into a variable
+        var printButton = document.getElementById("printpagebutton");
+        //Set the print button visibility to 'hidden'
+        printButton.style.visibility = 'hidden';
+        //Print the page content
+        window.print()
+        //Set the print button to 'visible' again
+        //[Delete this line if you want it to stay hidden after printing]
+        printButton.style.visibility = 'visible';
+    }
+</script>
+{% endblock %}
+</body>
+</html>
