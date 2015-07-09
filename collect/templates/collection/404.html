@@ -106,15 +106,19 @@
           </tr>  {% endfor %}
 </tbody>
           </table>
-    {% endif %}
-    <center> <a href="print" class="btn btn-lg btn-primary">Go To Print Page &nbsp;<span class="glyphicon glyphicon-print"></span></a></center><br><br>
-    </tbody>
 
+    <center> <a href="print" class="btn btn-lg btn-primary">Go To Print Page &nbsp;<span class="glyphicon glyphicon-print"></span></a></center><br><br>
+
+    </tbody>
+{% else %}
+        <div class="alert alert-info">Hey, Yet No Courses has been offered to other departments.</div>
+
+    {% endif %}
 </div>
 <div class="row">
 
 <h3>Offer a course to other department:</h3>
-
+{% if courses %}
 <form action="submit/" method="post">
 {% csrf_token %}
 {% for i in "321" %}
@@ -162,6 +166,10 @@
 
     <button type="submit" class="btn pull-right" value="submit">Submit</button>
     </form>
+   {% else %}
+            <div class="alert alert-info">There is no course in your department that you can offer to other department</div>
+
+    {% endif %}
     </div>
 {% endblock %}
 </body>

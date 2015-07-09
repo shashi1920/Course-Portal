@@ -54,14 +54,16 @@ def pro_course_list(request, kr, pro,sem):
             if(flag==1):
                 course_li.append(cr)
             flag=1
+    fr_courses=ForeignCourseList.objects.filter(programme=pr,semester=sem,prof_id1__isnull=False)
+    fr_courses_li=ForeignCourseList.objects.filter(programme=pr,semester=sem,prof_id1__isnull=True)
     prof=Professor.objects.all().order_by('prof_name')
     url="/programme/"+kr+"/"+pro+"/"+sem+"/"
-    context={'programme_li' : pr ,'course_li' : course_li,'professors':prof,'semester':sem,'teaching' : teaching,'url':url}
+    context={'programme_li' : pr ,'course_li' : course_li,'professors':prof,'semester':sem,'teaching' : teaching,'url':url,'fr_courses':fr_courses,'fr_courses_li':fr_courses_li}
     return  render(request,'collection/course_list.html',context)
 def pro_course_list_print(request, kr, pro,sem):
     if not request.user.is_authenticated():
         return render(request,'registration/denied.html')
-    profile = Profile.objects.filter(user=request.user)
+    profile = Profile.objects.get(user=request.user)
     if len(dept.objects.filter(head=profile))==0 or str(dept.objects.filter(head=profile)[0].dept_code) != kr:
         return render(request,'registration/denied.html')
     pr=programme.objects.get(branch=kr,programme_code=pro)
@@ -82,8 +84,9 @@ def pro_course_list_print(request, kr, pro,sem):
                 course_li.append(cr)
             flag=1
     prof=Professor.objects.all().order_by('prof_name')
+    fr_courses=ForeignCourseList.objects.filter(programme=pr,semester=sem)
     url="/programme/"+kr+"/"+pro+"/"+sem+"/"
-    context={'programme_li' : pr ,'course_li' : course_li,'professors':prof,'semester':sem,'teaching' : teaching,'url':url}
+    context={'programme_li' : pr ,'course_li' : course_li,'professors':prof,'semester':sem,'teaching' : teaching,'url':url,'fr_courses':fr_courses}
     return  render(request,'collection/print.html',context)
 
 def login_user(request):
@@ -91,7 +94,7 @@ def login_user(request):
     username = password = ''
     if request.user.is_authenticated():
         #state="Already logged in, "+request.user.username
-        profile = Profile.objects.filter(user=request.user)
+        profile = Profile.objects.get(user=request.user)
         return HttpResponseRedirect(reverse('programme_list', args=(str(dept.objects.filter(head=profile)[0].dept_code),)))
     if request.POST:
         username = request.POST['username']
@@ -101,7 +104,7 @@ def login_user(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                profile = Profile.objects.filter(user=request.user)
+                profile = Profile.objects.get(user=request.user)
                 return HttpResponseRedirect(reverse('programme_list', args=(str(dept.objects.filter(head=profile)[0].dept_code),)))
             else:
                 state = "Your account is not active, please contact the site admin."
@@ -230,7 +233,102 @@ def add_teacher(request, kr, pro,sem):
                 log_query=ActivityLog(USER=profile,log=log_message)
                 log_query.save()
                 course_success.append(success)
+    fr_courses_li=ForeignCourseList.objects.filter(programme=pr,semester=sem,prof_id1__isnull=True)
+    for cr in fr_courses_li:
+        conevner_form="cname_"+cr.course_code
+        con_name= request.POST.get(conevner_form)
 
+        p1_form="p1name"+cr.course_code
+        p1_name=request.POST.get(p1_form)
+        p2_form="p2name"+cr.course_code
+        p2_name=request.POST.get(p2_form)
+        p3_form="p3name"+cr.course_code
+        p3_name=request.POST.get(p3_form)
+        if con_name:
+            cn=Professor.objects.get(prof_id=con_name)
+            if (con_name==p1_name or con_name==p2_name or con_name==p3_name):
+                er1="You have selected same Convener name as other faculty "
+                errors.append(er1)
+                er1=cr.course_code +" "+cr.course_name
+                course_error.append(er1)
+                er=True
+            if((not p2_name) and (p3_name)):
+                er1="Select 2nd Faculty First Then 3rd Faculty "
+                errors.append(er1)
+                er1=cr.course_code +" "+cr.course_name
+                course_error.append(er1)
+                er=True
+            if((not p1_name) and (p2_name)):
+                er1="Select 1st Faculty First Then Select 2nd Faculty "
+                errors.append(er1)
+                er1=cr.course_code +" "+cr.course_name
+                course_error.append(er1)
+                er=True
+            if((not p1_name) and (p3_name)):
+                er1="Select 1st Faculty First Then Select 3rd Faculty "
+                errors.append(er1)
+                er1=cr.course_code +" "+cr.course_name
+                course_error.append(er1)
+                er=True
+            if((p1_name==p2_name and p1_name) or (p3_name==p1_name and p3_name)) or (p2_name==p3_name and p3_name):
+                er1="You have selected same faculty "
+                errors.append(er1)
+                er1=cr.course_code +" "+cr.course_name
+                course_error.append(er1)
+                er=True
+            #Succesful COurses Now
+            if(p3_name and p2_name and p1_name and (not er)):
+                p1_id=Professor.objects.get(prof_id=p1_name)
+                p2_id=Professor.objects.get(prof_id=p2_name)
+                p3_id=Professor.objects.get(prof_id=p3_name)
+                p=ForeignCourseList.objects.get(course_code=cr,semester=sem,programme=pr)
+                p.prof_id1=cn
+                p.prof_id2=p1_id
+                p.prof_id3=p2_id
+                p.prof_id4=p3_id,
+
+                p.save()
+                log_message="Successfully Added Faculty Details of "+success
+                log_query=ActivityLog(USER=profile,log=log_message)
+                log_query.save()
+                success=cr.course_code +" "+cr.course.course_name
+                course_success.append(success)
+            elif(p2_name and p1_name and (not er)):
+                p1_id=Professor.objects.get(prof_id=p1_name)
+                p2_id=Professor.objects.get(prof_id=p2_name)
+                p=ForeignCourseList.objects.get(course_code=cr,semester=sem,programme=pr)
+
+                p.prof_id1=cn
+                p.prof_id2=p1_id
+                p.prof_id3=p2_id
+
+                p.save()
+                success=cr.course_code +" "+cr.course.course_name
+                log_message="Successfully Added Faculty Details of "+success
+                log_query=ActivityLog(USER=profile,log=log_message)
+                log_query.save()
+
+                course_success.append(success)
+            elif(p1_name and not(er)):
+                p1_id=Professor.objects.get(prof_id=p1_name)
+                p=ForeignCourseList.objects.get(course_code=cr,semester=sem,programme=pr)
+                p.prof_id1=cn
+                p.prof_id2=p1_id
+                p.save()
+                success=cr.course_code +" "+cr.course.course_name
+                log_message="Successfully Added Faculty Details of "+success
+                log_query=ActivityLog(USER=profile,log=log_message)
+                log_query.save()
+                course_success.append(success)
+            elif((not er)):
+                p=ForeignCourseList.objects.get(course_code=cr,semester=sem,programme=pr)
+                p.prof_id1=cn
+                p.save()
+                success=cr.course_code +" "+cr.course.course_name
+                log_message="Successfully Added Faculty Details of "+success
+                log_query=ActivityLog(USER=profile,log=log_message)
+                log_query.save()
+                course_success.append(success)
     error_list=zip(errors,course_error)
     er=False
     url="/programme/"+kr+"/"+pro+"/"+sem+"/"
@@ -309,6 +407,8 @@ def fr_submit(request,br,pro,sem):
         seme='sem'+i
         SEM=request.POST.get(seme)
         if frpr and frcr:
+            global pr
+            global cr
             pr=programme.objects.get(pk=frpr)
             cr=ApprovedCourseList.objects.get(pk=frcr)
             COURSE_CODE=cr.course_code+"A"
@@ -317,15 +417,20 @@ def fr_submit(request,br,pro,sem):
                 msg="Sorry, Semester count can't be greater than maximum duration for  "+cr.course_code
                 messages.error(request,msg)
             else:
-                ins=ForeignCourseList(programme=pr,course_code=COURSE_CODE,course=cr,semester=SEM)
-                ins.save()
-                msg="Successfully Offered " + cr.course_code + " " + cr.course_name +" to "+pr.programme_name+"("+pr.programme_code+") "+pr.branch.dept_name
-                messages.success(request,msg)
-                p=ActivityLog(USER=profile,log=msg)
-                p.save()
-
+                check=ForeignCourseList.objects.filter(programme=pr,course_code=COURSE_CODE,course=cr,semester=SEM)
+                if not check:
+                    ins=ForeignCourseList(programme=pr,course_code=COURSE_CODE,course=cr,semester=SEM)
+                    ins.save()
+                    msg="Successfully Offered " + cr.course_code + " " + cr.course_name +" to "+pr.programme_name+"("+pr.programme_code+") "+pr.branch.dept_name
+                    messages.success(request,msg)
+                    p=ActivityLog(USER=profile,log=msg)
+                    p.save()
+                else:
+                    msg="Sorry this course is already offered - " + cr.course_code + " " + cr.course_name +" to "+pr.programme_name+"("+pr.programme_code+") "+pr.branch.dept_name
+                    messages.error(request,msg)
     url="/programme/"+br+"/"+pro+"/"+sem+'/fr'
     return HttpResponseRedirect(url)
+
 def fr_delete(request,br, pro,sem,entry):
     if not request.user.is_authenticated():
         return render(request,'registration/denied.html')
@@ -343,5 +448,23 @@ def fr_delete(request,br, pro,sem,entry):
     p.save()
     url="/programme/"+br+"/"+pro+"/"+sem+"/fr"
     return HttpResponseRedirect(url)
+def fr_course_delete(request,br, pro,sem,entry):
+    if not request.user.is_authenticated():
+        return render(request,'registration/denied.html')
+    profile = Profile.objects.get(user=request.user)
+    if len(dept.objects.filter(head=profile))==0 or str(dept.objects.filter(head=profile)[0].dept_code) != br:
+        return render(request,'registration/denied.html')
+    entry1=ForeignCourseList.objects.get(pk=entry)
+    log_message="Successfully Deleted Faculty Details of "+entry1.course_code+" " + entry1.course.course_name
+    entry1.prof_id1=None
+    entry1.prof_id2=None
+    entry1.prof_id3=None
+    entry1.prof_id4=None
+    entry1.save()
+    p=ActivityLog(USER=profile,log=log_message)
 
-# Create your views here.
+    messages.success(request,log_message)
+    p.save()
+    url="/programme/"+br+"/"+pro+"/"+sem
+
+    return HttpResponseRedirect(url)

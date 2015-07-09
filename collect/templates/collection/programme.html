@@ -22,9 +22,9 @@
       document.write("<li>");
       document.write(i);
         document.write("<ul>");
-        document.write("<li><a href='{{pr.programme_code}}/"+i+"'>Native Courses</a></li>");
-        document.write("<li><a href='{{pr.programme_code}}/"+i+"/fr'>Foreign Courses Offered From</a></li>");
-        document.write("<li><a href='{{pr.programme_code}}/"+i+"/FRTO'>Foreign Courses Offered To</a></li>");
+        document.write("<li><a href='{{pr.programme_code}}/"+i+"'>Alot a Course</a></li>");
+        document.write("<li><a href='{{pr.programme_code}}/"+i+"/fr'>Offer a course to another department</a></li>");
+
         document.write("</ul>");
       document.write("</li>");
     }
@@ -42,9 +42,9 @@
       document.write("<li>");
       document.write(i);
         document.write("<ul>");
-        document.write("<li><a href='{{pr.programme_code}}/"+i+"'>Native Courses</a></li>");
-        document.write("<li><a href='{{pr.programme_code}}/"+i+"/fr'>Foreign Courses Offered From</a></li>");
-        document.write("<li><a href='{{pr.programme_code}}/"+i+"/FRTO'>Foreign Courses Offered To</a></li>");
+        document.write("<li><a href='{{pr.programme_code}}/"+i+"'>Alot a Course</a></li>");
+        document.write("<li><a href='{{pr.programme_code}}/"+i+"/fr'>Offer a course to another department</a></li>");
+
         document.write("</ul>");
       document.write("</li>");
     }
@@ -74,15 +74,13 @@
   {% if activity_log %}
   	<div class="row">
         <h3>Recent Activities: (<a href="activity_log">View All</a>)</h3>
-		<div class="error-notice">
+
 
         {% for log in activity_log %}
+    <div class="alert alert-success">{{log.date_time}} : {{log}}</div>
 
-          <div class="oaerror info">
-            <strong>{{log.date_time}}</strong>  : {{log}}
-          </div>
     {% endfor %}
-        </div>
+
 	</div>
 
     {% endif %}

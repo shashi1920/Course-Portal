@@ -20,5 +20,7 @@ urlpatterns = patterns('',
     url(r'^programme/(?P<br>[A-Za-z]{2})/(?P<pro>[A-Za-z]+)/(?P<sem>\d+)/fr/submit/$', 'collection.views.fr_submit'),
     url(r'^programme/(?P<br>[A-Za-z]{2})/(?P<pro>[A-Za-z]+)/(?P<sem>\d+)/fr/delete/(?P<entry>\d+)/$', 'collection.views.fr_delete'),
     url(r'^programme/(?P<br>[A-Za-z]{2})/(?P<pro>[A-Za-z]+)/(?P<sem>\d+)/fr/print/$', 'collection.views.fr_course_list_print'),
+    url(r'^programme/(?P<br>[A-Za-z]{2})/(?P<pro>[A-Za-z]+)/(?P<sem>\d+)/delete/fr/(?P<entry>\d+)/$', 'collection.views.fr_course_delete'),
+
 )
 handler404='views.custom_404'

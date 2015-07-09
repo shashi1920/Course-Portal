@@ -24,11 +24,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="course_list.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="course_list.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/collect/templates/collection/course_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-40.53846" vertical-offset="612" max-vertical-offset="3077">
-              <caret line="98" column="12" selection-start-line="98" selection-start-column="12" selection-end-line="98" selection-end-column="12" />
+            <state vertical-scroll-proportion="0.35675675" vertical-offset="2743" max-vertical-offset="5168">
+              <caret line="173" column="38" selection-start-line="173" selection-start-column="38" selection-end-line="173" selection-end-column="38" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/collect/static/collection/main.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1888" max-vertical-offset="2618">
+              <caret line="144" column="1" selection-start-line="144" selection-start-column="1" selection-end-line="144" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -44,25 +54,18 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/collect/collection/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.9414802" vertical-offset="4927" max-vertical-offset="5627">
-              <caret line="344" column="36" selection-start-line="344" selection-start-column="36" selection-end-line="344" selection-end-column="36" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="6321" max-vertical-offset="7310">
+              <caret line="448" column="20" selection-start-line="448" selection-start-column="20" selection-end-line="448" selection-end-column="20" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
-                <element signature="e#3953#5000#0" expanded="false" />
+                <element signature="e#4301#5342#0" expanded="false" />
+                <element signature="e#5374#5492#0" expanded="false" />
+                <element signature="e#16387#16874#0" expanded="false" />
+                <element signature="e#17000#17749#0" expanded="false" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/collect/templates/collection/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="1071">
-              <caret line="47" column="0" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -70,8 +73,8 @@
       <file leaf-file-name="404.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/collect/templates/collection/404.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="9.384615" vertical-offset="941" max-vertical-offset="2941">
-              <caret line="41" column="28" selection-start-line="41" selection-start-column="28" selection-end-line="41" selection-end-column="28" />
+            <state vertical-scroll-proportion="-16.115385" vertical-offset="2454" max-vertical-offset="3077">
+              <caret line="169" column="118" selection-start-line="169" selection-start-column="118" selection-end-line="169" selection-end-column="118" />
               <folding />
             </state>
           </provider>
@@ -87,21 +90,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="submit.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/collect/templates/collection/submit.html">
+      <file leaf-file-name="programme.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/collect/templates/collection/programme.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="833">
-              <caret line="31" column="27" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
+            <state vertical-scroll-proportion="-17.923077" vertical-offset="316" max-vertical-offset="1598">
+              <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="programme.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/collect/templates/collection/programme.html">
+      <file leaf-file-name="activity_log.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/collect/templates/collection/activity_log.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="663" max-vertical-offset="1632">
-              <caret line="39" column="14" selection-start-line="39" selection-start-column="14" selection-end-line="39" selection-end-column="14" />
+            <state vertical-scroll-proportion="-6.5384617" vertical-offset="0" max-vertical-offset="391">
+              <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -110,8 +113,8 @@
       <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/collect/collection/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="919" max-vertical-offset="1768">
-              <caret line="59" column="49" selection-start-line="59" selection-start-column="49" selection-end-line="59" selection-end-column="49" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="562" max-vertical-offset="1768">
+              <caret line="73" column="31" selection-start-line="73" selection-start-column="31" selection-end-line="73" selection-end-column="31" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
                 <element signature="e#358#616#0" expanded="false" />
@@ -125,8 +128,8 @@
       <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/collect/collect/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="340" max-vertical-offset="476">
-              <caret line="21" column="82" selection-start-line="21" selection-start-column="82" selection-end-line="21" selection-end-column="82" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+              <caret line="22" column="136" selection-start-line="22" selection-start-column="120" selection-end-line="22" selection-end-column="136" />
               <folding />
             </state>
           </provider>
@@ -147,18 +150,18 @@
         <option value="$PROJECT_DIR$/collect/static/collection/js/main.js" />
         <option value="$PROJECT_DIR$/collect/templates/collection/submit.html" />
         <option value="$PROJECT_DIR$/collect/collection/admin.py" />
-        <option value="$PROJECT_DIR$/collect/templates/collection/activity_log.html" />
         <option value="$PROJECT_DIR$/collect/collect/settings.py" />
-        <option value="$PROJECT_DIR$/collect/static/collection/main.css" />
         <option value="$PROJECT_DIR$/collect/templates/collection/index.html" />
-        <option value="$PROJECT_DIR$/collect/templates/collection/programme.html" />
-        <option value="$PROJECT_DIR$/collect/collect/urls.py" />
         <option value="$PROJECT_DIR$/collect/templates/collection/foreign_print.html" />
-        <option value="$PROJECT_DIR$/collect/templates/collection/course_list.html" />
         <option value="$PROJECT_DIR$/collect/templates/collection/print.html" />
         <option value="$PROJECT_DIR$/collect/collection/models.py" />
-        <option value="$PROJECT_DIR$/collect/collection/views.py" />
+        <option value="$PROJECT_DIR$/collect/static/collection/main.css" />
+        <option value="$PROJECT_DIR$/collect/templates/collection/activity_log.html" />
+        <option value="$PROJECT_DIR$/collect/templates/collection/programme.html" />
         <option value="$PROJECT_DIR$/collect/templates/collection/404.html" />
+        <option value="$PROJECT_DIR$/collect/collect/urls.py" />
+        <option value="$PROJECT_DIR$/collect/collection/views.py" />
+        <option value="$PROJECT_DIR$/collect/templates/collection/course_list.html" />
       </list>
     </option>
   </component>
@@ -577,13 +580,13 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="754" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19122024" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32956383" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3279743" sideWeight="0.5" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -887,13 +890,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/collect/templates/collection/activity_log.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="425">
-          <caret line="18" column="7" selection-start-line="0" selection-start-column="0" selection-end-line="19" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/collect/collect/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="223" max-vertical-offset="1870">
@@ -905,13 +901,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="594">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/collect/static/collection/main.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1532" max-vertical-offset="2193">
-          <caret line="122" column="0" selection-start-line="122" selection-start-column="0" selection-end-line="122" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -927,22 +916,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="17" max-vertical-offset="833">
           <caret line="31" column="27" selection-start-line="31" selection-start-column="27" selection-end-line="31" selection-end-column="27" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/collect/templates/collection/programme.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="663" max-vertical-offset="1632">
-          <caret line="39" column="14" selection-start-line="39" selection-start-column="14" selection-end-line="39" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/collect/collect/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="476">
-          <caret line="21" column="82" selection-start-line="21" selection-start-column="82" selection-end-line="21" selection-end-column="82" />
           <folding />
         </state>
       </provider>
@@ -965,8 +938,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/collect/collection/models.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="919" max-vertical-offset="1768">
-          <caret line="59" column="49" selection-start-line="59" selection-start-column="49" selection-end-line="59" selection-end-column="49" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="562" max-vertical-offset="1768">
+          <caret line="73" column="31" selection-start-line="73" selection-start-column="31" selection-end-line="73" selection-end-column="31" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
             <element signature="e#358#616#0" expanded="false" />
@@ -976,30 +949,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/collect/templates/collection/404.html">
+    <entry file="file://$PROJECT_DIR$/collect/static/collection/main.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="9.384615" vertical-offset="941" max-vertical-offset="2941">
-          <caret line="41" column="28" selection-start-line="41" selection-start-column="28" selection-end-line="41" selection-end-column="28" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1888" max-vertical-offset="2618">
+          <caret line="144" column="1" selection-start-line="144" selection-start-column="1" selection-end-line="144" selection-end-column="1" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/collect/templates/collection/course_list.html">
+    <entry file="file://$PROJECT_DIR$/collect/templates/collection/programme.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-40.53846" vertical-offset="612" max-vertical-offset="3077">
-          <caret line="98" column="12" selection-start-line="98" selection-start-column="12" selection-end-line="98" selection-end-column="12" />
+        <state vertical-scroll-proportion="-17.923077" vertical-offset="316" max-vertical-offset="1598">
+          <caret line="46" column="0" selection-start-line="46" selection-start-column="0" selection-end-line="46" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/collect/templates/collection/activity_log.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.5384617" vertical-offset="0" max-vertical-offset="391">
+          <caret line="10" column="7" selection-start-line="10" selection-start-column="7" selection-end-line="10" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/collect/templates/collection/404.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-16.115385" vertical-offset="2454" max-vertical-offset="3077">
+          <caret line="169" column="118" selection-start-line="169" selection-start-column="118" selection-end-line="169" selection-end-column="118" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/collect/collect/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="510">
+          <caret line="22" column="136" selection-start-line="22" selection-start-column="120" selection-end-line="22" selection-end-column="136" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/collect/collection/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9414802" vertical-offset="4927" max-vertical-offset="5627">
-          <caret line="344" column="36" selection-start-line="344" selection-start-column="36" selection-end-line="344" selection-end-column="36" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="6321" max-vertical-offset="7310">
+          <caret line="448" column="20" selection-start-line="448" selection-start-column="20" selection-end-line="448" selection-end-column="20" />
           <folding>
             <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#3953#5000#0" expanded="false" />
+            <element signature="e#4301#5342#0" expanded="false" />
+            <element signature="e#5374#5492#0" expanded="false" />
+            <element signature="e#16387#16874#0" expanded="false" />
+            <element signature="e#17000#17749#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/collect/templates/collection/course_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.35675675" vertical-offset="2743" max-vertical-offset="5168">
+          <caret line="173" column="38" selection-start-line="173" selection-start-column="38" selection-end-line="173" selection-end-column="38" />
+          <folding />
         </state>
       </provider>
     </entry>
