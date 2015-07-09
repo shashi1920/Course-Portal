@@ -36,6 +36,8 @@
         <th>Course Name</th>
         <th>Convener Name</th>
           <th>Other Faculties</th>
+          <th>Credits</th>
+          <th>LTP</th>
           <th>Action</th>
       </tr>
     </thead>
@@ -75,6 +77,10 @@
     <td>{{ teach.prof_id1 }}</td>
 <td>{% if teach.prof_id2 %} {{teach.prof_id2}} {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %}</li>
 <br></td>
+         <td>{{ teach.course_code.credit }}</td>
+         <td>{% if teach.course_code.l %} {{ teach.course_code.l }} {% else %}0 {% endif %}
+    {% if teach.course_code.t %} {{ teach.course_code.t }} {% else %}0 {% endif %}
+    {% if teach.course_code.p %} {{ teach.course_code.p }} {% else %}0 {% endif %}</td>
      <td>  <center><button class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete{{teach}}">
         Delete This
     </button></center></td></tr>
