@@ -38,6 +38,7 @@
           <th>Other Faculties</th>
           <th>Credits</th>
           <th>LTP</th>
+          <th>Elective/Compulsory</th>
           <th>Action</th>
       </tr>
     </thead>
@@ -81,6 +82,7 @@
          <td>{% if teach.course_code.l %} {{ teach.course_code.l }} {% else %}0 {% endif %}
     {% if teach.course_code.t %} {{ teach.course_code.t }} {% else %}0 {% endif %}
     {% if teach.course_code.p %} {{ teach.course_code.p }} {% else %}0 {% endif %}</td>
+         <td>{% if teach.course_code.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
      <td>  <center><button class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete{{teach}}">
         Delete This
     </button></center></td></tr>

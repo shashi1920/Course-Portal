@@ -46,6 +46,7 @@ class ApprovedCourseList(models.Model):
     programme = models.ForeignKey(programme)
     l=models.IntegerField(blank=True,null=True)
     t=models.IntegerField(blank=True,null=True)
+    elect_or_comp = models.IntegerField(max_length=1,blank=True,default=1)
     p=models.IntegerField(blank=True,null=True)
     level_0 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_0_list')
     level_1 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_1_list')
@@ -58,15 +59,18 @@ class ApprovedCourseList(models.Model):
 class ForeignCourseList(models.Model):
     course_code = models.CharField(max_length=10)
     course=models.ForeignKey(ApprovedCourseList)
-    credit = models.IntegerField()
+    credit = models.IntegerField(blank=True,null=True)
     programme = models.ForeignKey(programme)
     semester=models.IntegerField()
     l=models.IntegerField(blank=True,null=True)
     t=models.IntegerField(blank=True,null=True)
     p=models.IntegerField(blank=True,null=True)
-    level_0 = models.ForeignKey(Profile, null=True, blank=True, related_name='for_level_0_list')
-    level_1 = models.ForeignKey(Profile, null=True, blank=True, related_name='for_level_1_list')
-    level_2 = models.ForeignKey(Profile, null=True, blank=True, related_name='for_level_2_list')
+    elect_or_comp = models.IntegerField(max_length=1,blank=True,default=1)
+    prof_id1 = models.ForeignKey(Professor,blank=True,null=True)
+    date_added=models.DateTimeField(auto_now=True)
+    prof_id2 = models.ForeignKey(Professor, null=True, blank=True, related_name='fr_prof_id2')
+    prof_id3 = models.ForeignKey(Professor, null=True, blank=True, related_name='fr_prof_id3')
+    prof_id4 = models.ForeignKey(Professor, null=True, blank=True, related_name='fr_prof_id4')
     def __str__(self):              # __unicode__ on Python 2
         return self.course_code
 
@@ -95,12 +99,13 @@ class ApprovedCourseTeaching(models.Model):
     prof_id2 = models.ForeignKey(Professor, null=True, blank=True, related_name='prof_id2')
     prof_id3 = models.ForeignKey(Professor, null=True, blank=True, related_name='prof_id3')
     prof_id4 = models.ForeignKey(Professor, null=True, blank=True, related_name='prof_id4')
-    elect_or_comp = models.IntegerField(max_length=1)
+
     level_0 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_0_teaching')
     level_1 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_1_teaching')
     level_2 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_2_teaching')
     def __str__(self):              # __unicode__ on Python 2
         return str(self.application_no)
+
 
 class ProposedCourseTeaching(models.Model):
     application_no = models.AutoField(primary_key=True)

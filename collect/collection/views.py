@@ -192,7 +192,7 @@ def add_teacher(request, kr, pro,sem):
                 p1_id=Professor.objects.get(prof_id=p1_name)
                 p2_id=Professor.objects.get(prof_id=p2_name)
                 p3_id=Professor.objects.get(prof_id=p3_name)
-                p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_id,prof_id3=p2_id,prof_id4=p3_id,semester=sem,programme=pr,elect_or_comp=1)
+                p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_id,prof_id3=p2_id,prof_id4=p3_id,semester=sem,programme=pr)
 
 
                 p.save()
@@ -204,7 +204,7 @@ def add_teacher(request, kr, pro,sem):
             elif(p2_name and p1_name and (not er)):
                 p1_id=Professor.objects.get(prof_id=p1_name)
                 p2_id=Professor.objects.get(prof_id=p2_name)
-                p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_id,prof_id3=p2_id,semester=sem,programme=pr,elect_or_comp=1)
+                p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_id,prof_id3=p2_id,semester=sem,programme=pr)
                 p.save()
                 success=cr.course_code +" "+cr.course_name
                 log_message="Successfully Added Faculty Details of "+success
@@ -215,7 +215,7 @@ def add_teacher(request, kr, pro,sem):
             elif(p1_name and not(er)):
                 p1_id=Professor.objects.get(prof_id=p1_name)
 
-                p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_id,semester=sem,programme=pr,elect_or_comp=1)
+                p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,prof_id2=p1_id,semester=sem,programme=pr)
                 p.save()
                 success=cr.course_code +" "+cr.course_name
                 log_message="Successfully Added Faculty Details of "+success
@@ -223,7 +223,7 @@ def add_teacher(request, kr, pro,sem):
                 log_query.save()
                 course_success.append(success)
             elif((not er)):
-                p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,semester=sem,programme=pr,elect_or_comp=1)
+                p=ApprovedCourseTeaching(course_code=cr,prof_id1=cn,semester=sem,programme=pr)
                 p.save()
                 success=cr.course_code +" "+cr.course_name
                 log_message="Successfully Added Faculty Details of "+success
@@ -306,42 +306,23 @@ def fr_submit(request,br,pro,sem):
         frpr=request.POST.get(fr_pr)
         fr_cr='fr_course'+i
         frcr=request.POST.get(fr_cr)
-        credit='credits'+i
-        credit_get=request.POST.get(credit)
         seme='sem'+i
         SEM=request.POST.get(seme)
-        ltp="LTP"+i
-        LTP=request.POST.get(ltp)
-        global L
-        global T
-        global P
-
-        if LTP:
-            LTP=int(LTP)
-            P = LTP%10
-            LTP = LTP/10
-            T = LTP%10
-            LTP = LTP/10
-            L = LTP%10
-
         if frpr and frcr:
             pr=programme.objects.get(pk=frpr)
             cr=ApprovedCourseList.objects.get(pk=frcr)
             COURSE_CODE=cr.course_code+"A"
-            if not SEM and not credit_get:
-                msg="Sorry, Credit and Semester is also required for "+cr.course_code
+
+            if(int(SEM)>(2*pr.duration)):
+                msg="Sorry, Semester count can't be greater than maximum duration for  "+cr.course_code
                 messages.error(request,msg)
             else:
-                if(int(SEM)>(2*pr.duration)):
-                    msg="Sorry, Semester count can't be greater than maximum duration for  "+cr.course_code
-                    messages.error(request,msg)
-                else:
-                    ins=ForeignCourseList(programme=pr,course_code=COURSE_CODE,course=cr,credit=credit_get,semester=SEM,l=L,t=T,p=P)
-                    ins.save()
-                    msg="Successfully Offered " + cr.course_code + " " + cr.course_name +" to "+pr.programme_name+"("+pr.programme_code+") "+pr.branch.dept_name
-                    messages.success(request,msg)
-                    p=ActivityLog(USER=profile,log=msg)
-                    p.save()
+                ins=ForeignCourseList(programme=pr,course_code=COURSE_CODE,course=cr,semester=SEM)
+                ins.save()
+                msg="Successfully Offered " + cr.course_code + " " + cr.course_name +" to "+pr.programme_name+"("+pr.programme_code+") "+pr.branch.dept_name
+                messages.success(request,msg)
+                p=ActivityLog(USER=profile,log=msg)
+                p.save()
 
     url="/programme/"+br+"/"+pro+"/"+sem+'/fr'
     return HttpResponseRedirect(url)
@@ -351,6 +332,16 @@ def fr_delete(request,br, pro,sem,entry):
     profile = Profile.objects.get(user=request.user)
     if len(dept.objects.filter(head=profile))==0 or str(dept.objects.filter(head=profile)[0].dept_code) != br:
         return render(request,'registration/denied.html')
+    pr=programme.objects.get(branch=br,programme_code=pro)
+    entry1=ForeignCourseList.objects.get(pk=entry)
+    log_message="Successfully Deleted "+entry1.course_code+" "+entry1.course.course_name+" Offered Course"
 
+    p=ActivityLog(USER=profile,log=log_message)
+
+    entry1.delete()
+    messages.warning(request,log_message)
+    p.save()
+    url="/programme/"+br+"/"+pro+"/"+sem+"/fr"
+    return HttpResponseRedirect(url)
 
 # Create your views here.

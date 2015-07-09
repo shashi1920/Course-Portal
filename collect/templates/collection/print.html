@@ -27,6 +27,7 @@
           <th>Other Faculties</th>
           <th>Credits</th>
           <th>LTP</th>
+          <th>Elective/Compulsory</th>
 
 
       </tr>
@@ -45,7 +46,8 @@
             <td>{{ teach.course_code.credit }}</td>
          <td>{% if teach.course_code.l %} {{ teach.course_code.l }} {% else %}0 {% endif %}
     {% if teach.course_code.t %} {{ teach.course_code.t }} {% else %}0 {% endif %}
-    {% if teach.course_code.p %} {{ teach.course_code.p }} {% else %}0 {% endif %}</td>
+    {% if teach.course_code.p %} {{ teach.course_code.p }} {% else %}0 {% endif %}
+         <td>{% if teach.course_code.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td></td>
 </tr>
 
 
