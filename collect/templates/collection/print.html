@@ -16,8 +16,8 @@
 
 
 <div class="row">
-    {% if teaching %}
-<h3> Native Course List With Faculty, {{programme_li.programme_name}},{{programme_li.branch.dept_name}}  </h3>
+    {% if teaching or NOT_COURSE %}
+<h3> All Courses Offered in , {{programme_li.programme_name}},{{programme_li.branch.dept_name}}  </h3>
   <table class="table table-bordered">
     <thead>
       <tr>
@@ -49,6 +49,26 @@
     {% if teach.course_code.p %} {{ teach.course_code.p }} {% else %}0 {% endif %}
          <td>{% if teach.course_code.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td></td>
 </tr>
+
+
+
+{% endfor %}
+
+     {% for teach in NOT_COURSE %}
+
+
+
+
+     <tr><td>{{teach.course_code }}</td>
+     <td>{{ teach.course_name}}</td>
+    <td>None</td>
+<td>None</td>
+         <td>{{ teach.credit }}</td>
+         <td>{% if teach.l %} {{ teach.l }} {% else %}0 {% endif %}
+    {% if teach.t %} {{ teach.t }} {% else %}0 {% endif %}
+    {% if teach.p %} {{ teach.p }} {% else %}0 {% endif %}</td>
+         <td>{% if teach.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
+     </tr>
 
 
 

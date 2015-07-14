@@ -1,0 +1,394 @@
+{% extends "collection/index.html" %}
+  {% block body  %}
+
+
+<div class="row">
+    <h3>All Courses of Semester {{semester}}, {{programme.programme_name}}, {{programme.branch}}</h3>
+    {% if courses or fr_courses %}
+      <table class="table table-bordered" >
+    <thead style="background:#8B497E; color:white;">
+      <tr>
+        <th>Course Code</th>
+        <th>Course Name</th>
+
+          <th>Semester</th>
+          <th>Credits</th>
+          <th>LTP</th>
+          <th>Type</th>
+          <th>Action </th>
+
+      </tr>
+    </thead>
+       <tbody>
+       {% if fr_courses %}
+   <th style="border:0px"><b>Courses of your Departments</b></th>
+    {% endif %}
+    {% for courses in courses %}
+            <div class="modal fade" id="confirm-delete{{courses.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to delete a Course <i><b> {{courses.course_code}} {{courses.course_name}}</b></i>
+                        <br>
+                        Of Programme : <b> {{ courses.programme.programme_name }}, {{ courses.programme.branch.dept_name }} </b>
+                        <br>
+                        Of Semester: <b>{{semester}}</b>
+                        <br>
+                        Note that this procedure is irreversible. But You can re-update it Later</p>
+                    <p>Do you want to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok" href="{{ request.path }}delete/{{courses.pk}}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="modal fade" id="confirm-edit{{courses.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Update Details:</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You can override the fields, leaving blank will not update anything.</p>
+                    <form action="edit/{{courses.pk}}/" method="post">
+    {% csrf_token %}
+                        <div class="row">
+    <div class="col-sm-3">
+        Course Code<input type="text" name="course_code" class="form-control" placeholder="{{courses.course_code}}">
+    </div>
+     <div class="col-sm-9">
+        Course Name<input type="text" name="course_name" class="form-control" placeholder="{{courses.course_name}}" >
+    </div>
+    <div class="col-sm-3">
+        <br>
+        Credits<input type="number" name="credit" class="form-control" placeholder="{{ courses.credit }}">
+    </div>
+     <div class="col-sm-9">
+         <br>
+      Type: <br><input type="radio" name="elect_or_comp" value="0" {% if courses.elect_or_comp == 0 %} checked {% endif %}> Elective
+<input type="radio" name="elect_or_comp" value="1"  {% if courses.elect_or_comp == 1 %} checked {% endif %}>Compulsory
+    </div>
+         <div class="col-sm-12">
+        Syllabus<input type="text" name="syllabus" class="form-control" placeholder="{{courses.syllabus}}">
+    </div>
+
+    <div class="col-sm-3">
+        Lectures<input type="number" name="l" class="form-control" placeholder="{{courses.l}}">
+    </div>
+    <div class="col-sm-3">
+        Tutorials<input type="number" name="t" class="form-control" placeholder="{{courses.t}}">
+    </div>
+    <div class="col-sm-3">
+        Practicals<input type="number" name="p" class="form-control" placeholder="{{courses.p}}">
+    </div>
+    <div class="col-sm-12">
+        <div class="modal-footer">
+<button type="submit" class="btn btn-success" value="submit">Update</button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+             </div>
+        </div>
+                            </div>
+</form>
+                    <p class="debug-url"></p>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+          <tr>
+   <td style="background:#eee;">{{courses.course_code}}</td> <td>{{courses.course_name}}</td>
+
+ <td>{{courses.semester}}</td><td>{{courses.credit}}</td><td>{% if courses.l %} {{ courses.l }} {% else %}0 {% endif %}
+    {% if courses.t %} {{ courses.t }} {% else %}0 {% endif %}
+    {% if courses.p %} {{ courses.p }} {% else %}0 {% endif %}</td>
+              <td> {% if courses.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
+              {% if not CHECK.course %}
+<td>  <center><a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete{{courses.pk}}">
+        Delete This
+    </a>/<a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-edit{{courses.pk}}">
+        Edit
+    </a></center></td>
+              {% else %}
+              <td><span class="glyphicon glyphicon-ban-circle"></span></td>
+
+              {% endif %}
+
+
+
+          </tr>  {% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% if fr_courses %}
+   <th style="border:0px"><b>Courses From Other Departments</b></th>
+    {% endif %}
+       {% for courses in fr_courses %}
+            <div class="modal fade" id="confirm-delete_fr{{courses.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to delete a Course <i><b> {{courses.course_code}} {{courses.course.course_name}}</b></i>
+                        <br>
+                        Of Programme : <b> {{ courses.programme.programme_name }}, {{ courses.programme.branch.dept_name }} </b>
+                        <br>
+                        Of Semester: <b>{{semester}}</b>
+                        <br>
+                        Note that this procedure is irreversible. But You can re-update it Later</p>
+                    <p>Do you want to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok" href="{{ request.path }}delete/for/{{courses.pk}}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="modal fade" id="confirm-edit_fr{{courses.pk}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Update Details:</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You can override the fields, leaving blank will not update anything.</p>
+                    <form action="edit/fr/{{courses.pk}}/" method="post">
+    {% csrf_token %}
+                        <div class="row">
+    <div class="col-sm-3">
+        Course Code<input type="text" name="course_code" class="form-control" placeholder="{{courses.course_code}}">
+    </div>
+     <div class="col-sm-9">
+        Course Name<input type="text" name="course_name" class="form-control" placeholder="{{courses.course.course_name}}" >
+    </div>
+    <div class="col-sm-3">
+        <br>
+        Credits<input type="number" name="credit" class="form-control" placeholder="{{ courses.credit }}">
+    </div>
+     <div class="col-sm-9">
+         <br>
+      Type: <br><input type="radio" name="elect_or_comp" value="0" {% if courses.elect_or_comp == 0 %} checked {% endif %}> Elective
+<input type="radio" name="elect_or_comp" value="1"  {% if courses.elect_or_comp == 1 %} checked {% endif %}>Compulsory
+    </div>
+         <div class="col-sm-12">
+        Syllabus<input type="text" name="syllabus" class="form-control" placeholder="{{courses.course.syllabus}}">
+    </div>
+
+    <div class="col-sm-3">
+        Lectures<input type="number" name="l" class="form-control" placeholder="{{courses.l}}">
+    </div>
+    <div class="col-sm-3">
+        Tutorials<input type="number" name="t" class="form-control" placeholder="{{courses.t}}">
+    </div>
+    <div class="col-sm-3">
+        Practicals<input type="number" name="p" class="form-control" placeholder="{{courses.p}}">
+    </div>
+    <div class="col-sm-12">
+        <div class="modal-footer">
+<button type="submit" class="btn btn-success" value="submit">Update</button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+             </div>
+        </div>
+                            </div>
+</form>
+                    <p class="debug-url"></p>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+          <tr>
+   <td style="background:666;">{{courses.course_code}}</td> <td>{{courses.course.course_name}}</td>
+
+ <td>{{courses.semester}}</td><td>{{courses.credit}}</td><td>{% if courses.l %} {{ courses.l }} {% else %}0 {% endif %}
+    {% if courses.t %} {{ courses.t }} {% else %}0 {% endif %}
+    {% if courses.p %} {{ courses.p }} {% else %}0 {% endif %}</td>
+              <td> {% if courses.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
+              {% if not CHECK.course %}
+<td>  <center><a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete_fr{{courses.pk}}">
+        Delete This
+    </a>/<a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-edit_fr{{courses.pk}}">
+        Edit
+    </a></center></td>
+              {% else %}
+              <td><span class="glyphicon glyphicon-ban-circle"></span></td>
+
+              {% endif %}
+
+
+
+          </tr>  {% endfor %}
+
+
+</tbody>
+          </table>
+    {% else %}
+    <p>Sorry No course is available, Try adding a new course from below.</p>
+    {% endif %}
+    <table class="table">
+        <thead><th>Total Compulsory Subjects : {{ count }}</th>
+   </thead>
+        <thead><th>Minimum Number of Electives : {{ CHECK.minimum_elective }}</th>
+    <th></a><a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-elective{{courses.pk}}" {% if CHECK.course %} disabled {% endif %}>
+        Edit
+    </a></th></thead>
+ <div class="modal fade" id="confirm-elective" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Update Minimum Number Of Electives:</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p></p>
+                    <form action="edit/elective/" method="post">
+    {% csrf_token %}
+                        <div class="row">
+
+    <div class="col-sm-3">
+        Enter Minimum no. of electives<input type="number" name="minimum_elective" class="form-control" placeholder="{{CHECK.minimum_elective}}">
+    </div>
+    <div class="col-sm-12">
+        <div class="modal-footer">
+<button type="submit" class="btn btn-success" value="submit">Update</button>
+            <button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+             </div>
+        </div>
+                            </div>
+</form>
+                    <p class="debug-url"></p>
+                </div>
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+    </table>
+
+
+    </tbody>
+
+{% if not CHECK.course and courses %}
+<center>
+    <button onclick="confirm_fn();"><span class="glyphicon glyphicon-lock"></span> Lock Courses</button>
+
+</center>
+    {% endif %}
+{% if CHECK.course %}
+
+       <div class="alert alert-success">Congrats! You have locked the courses, Now Proceed Next to assign faculty to courses</div>
+   <center><a href="{{url}}" class="btn btn-primary btn-success"><span class="glyphicon glyphicon-forward"></span> Assign Faculty To Courses</a>
+    </center> {% endif %}
+{% if not CHECK.course %}
+<h3>Or, Add a new Course:</h3>
+<form action="submit/" method="post">
+    {% csrf_token %}
+    <div class="col-sm-3">
+        Course Code<input type="text" name="course_code" class="form-control" required>
+    </div>
+     <div class="col-sm-3">
+        Course Name<input type="text" name="course_name" class="form-control" required>
+    </div>
+    <div class="col-sm-3">
+        Credits<input type="number" name="credit" class="form-control" required>
+    </div>
+     <div class="col-sm-3">
+      Type: <br><input type="radio" name="elect_or_comp" value="0" > Elective
+<input type="radio" name="elect_or_comp" value="1"  checked>Compulsory
+    </div>
+         <div class="col-sm-12">
+        Syllabus<input type="text" name="syllabus" class="form-control" required>
+    </div>
+
+    <div class="col-sm-3">
+        Lectures<input type="number" name="l" class="form-control" required>
+    </div>
+    <div class="col-sm-3">
+        Tutorials<input type="number" name="t" class="form-control" required>
+    </div>
+    <div class="col-sm-3">
+        Practicals<input type="number" name="p" class="form-control" required>
+    </div>
+    <div class="col-sm-12">
+<button type="submit" class="btn pull-right" value="submit">Submit</button>
+        </div>
+</form>
+</div>
+{% endif %}
+<script> function confirm_fn(){
+swal({   title: "Are you sure?",
+ text: "After this you won't be able to Edit any course!",
+  type: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#DD6B55",
+  confirmButtonText: "Yes, Lock it!",
+   closeOnConfirm: true
+   },
+   function(response){
+   if (response==true){
+   window.location = "lock";
+   }
+   else {
+   console.log('You clicked Cancel');
+   }
+   });
+   }
+
+
+</script>
+{% endblock %}

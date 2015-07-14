@@ -1,29 +1,62 @@
 {% extends "collection/index.html" %}
   {% block body  %}
 <div class="row">
-  <h1>Welcome {{profile}}, HOD ,{{ deptm.dept_name }}</h1>
+    <h3>Welcome {{profile}},{{ deptm.dept_name }}</h3>
+<div class="col-xs-12">
+            <ul class="nav nav-pills nav-justified thumbnail">
+                <li><a href="#">
+                    <h4 class="list-group-item-heading">Step 1</h4>
+                    <p class="list-group-item-text">Check and Verify List of Courses</p>
+                </a></li>
+                <li class="active"><a href="#">
+                    <h4 class="list-group-item-heading">Step 2</h4>
+                    <p class="list-group-item-text">Assign Faculty To Courses</p>
+                </a></li>
+                <li class=""><a href="#">
+                    <h4 class="list-group-item-heading">Step 3</h4>
+                    <p class="list-group-item-text">Take Print/Export as CSV</p>
+                </a></li>
+            </ul>
+        </div>
+
   <h3>Programmes Offered in Your Department</h3>
 <br>
+    </div>
+
+
+
+
+
+
+
+
     {% if programme_li %}
-    <ul id="tree1">
+
+
     {% for pr in programme_li %}
-
-
-                <li><a href="#"> {{ pr.programme_code }} - {{ pr.programme_name }} {{ pr.duration }} Years Course </a>
-
+<div class="row">
+    <div class="col-sm-12">
+                <li style=" list-style: none;"><b><h4><span class="glyphicon glyphicon-dashboard"></span> {{ pr.programme_name }}</h4></b>
+</div>
+                    <div class="col-sm-4">
                     <ul>
 
-                        <li>Odd Semester
+                        <li style=" list-style: none; padding:0px; margin:0px;">Odd Semester
 
-                            <ul>
+                            <ul class="tree1">
                                  <script>
     var a={{ pr.duration }}
     for (i = 1; i <=2*a; i=i+2) {
       document.write("<li>");
       document.write(i);
+
         document.write("<ul>");
-        document.write("<li><a href='{{pr.programme_code}}/"+i+"'>Alot a Course</a></li>");
-        document.write("<li><a href='{{pr.programme_code}}/"+i+"/fr'>Offer a course to another department</a></li>");
+ document.write("<li><a target='_blank' href='{{pr.programme_code}}/"+i+"/courses'>View/Edit Courses of Your Department</a></li>");
+         document.write("<li><a target='_blank' href='{{pr.programme_code}}/"+i+"/fr'>View/Edit Courses Offered to Other Departments</a></li>");
+
+        document.write("<li><a target='_blank' href='{{pr.programme_code}}/"+i+"'>Allot Faculty to Courses</a></li>");
+
+
 
         document.write("</ul>");
       document.write("</li>");
@@ -31,9 +64,31 @@
 
 
 </script>
-                            </ul>
-                        </li>
-                        <li>Even Semester
+                            </ul></li></ul>
+    </li></div>
+
+
+                            <div class="col-sm-8">
+                                <br>
+
+                                {% for CHECKS in check %}
+        {% if CHECKS.programme == pr %}
+     <div class="col-sm-3"  style="line-height:2em;">  <b> Semester {{ CHECKS.semester }}</b></div>
+       <div class="col-sm-4" style="line-height:2em;">    {% if CHECKS.course %}Course List <span style="color:green;"  class="glyphicon glyphicon-ok"></span>
+           {% else %}
+     Course-List <span style="color:red;" class="glyphicon glyphicon-remove"></span>
+
+{% endif %} </div>
+     <div class="col-sm-5" style="line-height:2em;">   {% if CHECKS.allot %} Course-Faculty Details <span style="color:green;"  class="glyphicon glyphicon-ok"></span>
+{% else %}
+     Course-Faculty Details <span style="color:red;" class="glyphicon glyphicon-remove"></span>
+{% endif %} </div>
+
+        {% endif %}
+        {% endfor %}
+                                </div>
+
+                     <!--   <li>Even Semester
 
                         <ul>
                                 <script>
@@ -42,26 +97,37 @@
       document.write("<li>");
       document.write(i);
         document.write("<ul>");
-        document.write("<li><a href='{{pr.programme_code}}/"+i+"'>Alot a Course</a></li>");
-        document.write("<li><a href='{{pr.programme_code}}/"+i+"/fr'>Offer a course to another department</a></li>");
+ document.write("<li><a target='_blank' href='{{pr.programme_code}}/"+i+"/courses'>View/Edit Courses of Your Department</a></li>");
+         document.write("<li><a target='_blank' href='{{pr.programme_code}}/"+i+"/fr'>View/Edit Courses Offered to Other Departments</a></li>");
+
+        document.write("<li><a target='_blank' href='{{pr.programme_code}}/"+i+"'>Allot Faculty to Courses</a></li>");
+
 
         document.write("</ul>");
       document.write("</li>");
     }
 
 
-
 </script>
                             </ul>
                         </li>
+-->
 
-                    </ul>
-                    <br>
-                </li>
 
+
+
+
+
+
+
+    </div>
+    <div class="row"><hr></div>
     {% endfor %}
 
-</ul>
+
+
+
+
 
 {% else %}
     <p>Sorry No Programme is Available</p>
@@ -70,7 +136,7 @@
 
 
 
-</div>
+
   {% if activity_log %}
   	<div class="row">
         <h3>Recent Activities: (<a href="activity_log">View All</a>)</h3>
@@ -83,7 +149,6 @@
 
 	</div>
 
+
     {% endif %}
 {% endblock %}
-</body>
-</html>

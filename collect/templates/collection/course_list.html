@@ -7,18 +7,8 @@
 <body>
 
   {% block body  %}
-{% if messages %}
-<div class="row">
-        <br><br>
-		<div class="error-notice">
-    {% for message in messages %}
-            <div class="oaerror info">
-                  <strong>Notification</strong> - {{ message }}
-          </div>
-    {% endfor %}
-    </div>
-	</div>
-{% endif %}
+
+
 
 
 
@@ -28,24 +18,38 @@
 
 <div class="row">
 <h3> Assigned Native & Foreign Courses Course List</h3>
-    {% if teaching or fr_courses %}
+    {% if teaching or fr_courses or NOT_COURSE %}
 
   <table class="table table-bordered">
-    <thead>
+    <thead style="background:#8B497E; color:white;">
       <tr>
         <th>Course Code</th>
         <th>Course Name</th>
-        <th>Convener Name</th>
-          <th>Other Faculties</th>
-          <th>Credits</th>
+              <th>Credits</th>
           <th>LTP</th>
+        <th>Convener Name</th>
+
+          <th>Other Faculties</th>
+
           <th>Elective/Compulsory</th>
           <th>Action</th>
       </tr>
     </thead>
 
      <tbody>
+
+
+
+
+
+
+
+
+
+<th style="border:0px;"> <b>Compulsory Courses</b> </th>
+
 {% for teach in teaching %}
+{% if teach.course_code.elect_or_comp == 1 %}
         <div class="modal fade" id="confirm-delete{{teach}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -74,21 +78,33 @@
 
 
 
-     <tr><td>{{teach.course_code }}</td>
+     <tr style="background:#eee;"><td>{{teach.course_code }}</td>
      <td>{{ teach.course_code.course_name}}</td>
-    <td>{{ teach.prof_id1 }}</td>
-<td>{% if teach.prof_id2 %} {{teach.prof_id2}} {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %}</li>
-<br></td>
-         <td>{{ teach.course_code.credit }}</td>
+          <td>{{ teach.course_code.credit }}</td>
          <td>{% if teach.course_code.l %} {{ teach.course_code.l }} {% else %}0 {% endif %}
     {% if teach.course_code.t %} {{ teach.course_code.t }} {% else %}0 {% endif %}
     {% if teach.course_code.p %} {{ teach.course_code.p }} {% else %}0 {% endif %}</td>
+    <td>{{ teach.prof_id1 }}</td>
+<td>{% if teach.prof_id2 %} {{teach.prof_id2}} {% else %} None {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}}
+    {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %}
+
+<br></td>
+
          <td>{% if teach.course_code.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
-     <td>  <center><button class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete{{teach}}">
-        Delete This
-    </button></center></td></tr>
+     <td>  <center>
+         {% if not CHECK.allot %}
+         <a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete{{teach}}">
+        Delete Faculty Details
+    </a>
+     {% else %}
+     <a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#">
+        Delete Faculty Details <span class="glyphicon glyphicon-ban-circle"></span>
 
+    </a>
 
+     </center></td></tr>
+
+{% endif %}
 
     <script>
         $('#confirm-delete{{teach}}').on('show.bs.modal', function(e) {
@@ -97,10 +113,62 @@
             $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
         });
     </script>
+ {% endif %}
 {% endfor %}
 
+
+
+
+
+
+
+
+
+
+
+
+{% for teach in NOT_COURSE %}
+
+{% if teach.elect_or_comp == 1 %}
+     <tr ><td>{{teach.course_code }}</td>
+     <td>{{ teach.course_name}}</td>
+          <td>{{ teach.credit }}</td>
+         <td>{% if teach.l %} {{ teach.l }} {% else %}0 {% endif %}
+    {% if teach.t %} {{ teach.t }} {% else %}0 {% endif %}
+    {% if teach.p %} {{ teach.p }} {% else %}0 {% endif %}</td>
+    <td>None</td>
+<td>None</td>
+
+         <td>{% if teach.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
+     <td>
+
+
+         <center><a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete{{teach}}" disabled>
+        Delete Faculty Details <span class="glyphicon glyphicon-ban-circle"></span>
+
+    </a></center></td></tr>
+
+{% endif %}
+
+{% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% for teach in fr_courses %}
-        <div class="modal fade" id="confirm-delete{{teach}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+{% if teach.elect_or_comp == 1 %}
+        <div class="modal fade" id="confirm-delete_fr{{teach}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
 
@@ -128,19 +196,28 @@
 
 
 
-     <tr><td>{{teach.course_code }}</td>
+     <tr {% if teach.prof_id1 %} style="background:#eee;" {% endif %}><td>{{teach.course_code }}</td>
      <td>{{ teach.course.course_name}}</td>
+
+           <td>{{ teach.credit }}</td>
+         <td>{% if teach.l %} {{ teach.l }} {% else %}0 {% endif %}
+    {% if teach.t %} {{ teach.t }} {% else %}0 {% endif %}
+    {% if teach.p %} {{ teach.p }} {% else %}0 {% endif %}</td>
     <td>{{ teach.prof_id1 }}</td>
-<td>{% if teach.prof_id2 %} {{teach.prof_id2}} {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %}</li>
+<td>{% if teach.prof_id2 %} {{teach.prof_id2}} {% else %} None {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %}</li>
 <br></td>
-         <td>{{ teach.course_code.credit }}</td>
-         <td>{% if teach.course_code.l %} {{ teach.course_code.l }} {% else %}0 {% endif %}
-    {% if teach.course_code.t %} {{ teach.course_code.t }} {% else %}0 {% endif %}
-    {% if teach.course_code.p %} {{ teach.course_code.p }} {% else %}0 {% endif %}</td>
-         <td>{% if teach.course_code.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
-     <td>  <center><button class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete{{teach}}">
-        Delete This
-    </button></center></td></tr>
+
+         <td>{% if teach.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
+     <td>
+         {% if teach.prof_id1 and not CHECK.allot %}
+         <center><a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete_fr{{teach}}">
+        Delete Faculty Details
+    </a></center>
+     {% else %}
+          <center><a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#" disabled>
+        Delete Faculty Details <span class="glyphicon glyphicon-ban-circle"></span></a></center>
+         {% endif %}
+     </td></tr>
 
 
 
@@ -151,19 +228,226 @@
             $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
         });
     </script>
+{% endif %}
 {% endfor %}
 
 
-</tbody>
-       </table>
-           <center> <a href="print" class="btn btn-lg btn-primary">Go To Print Page &nbsp;<span class="glyphicon glyphicon-print"></span></a></center><br><br>
 
-    {% else %}
-    <div class="alert alert-info">Hey, Yet no course has been allotted to a faculty, From the Form Below try to add Teachers to Courses</div>
+
+
+
+
+
+
+
+
+<th style="border:0px">Elective Subjectives </th>
+
+{% for teach in teaching %}
+{% if teach.course_code.elect_or_comp == 0 %}
+        <div class="modal fade" id="confirm-delete{{teach}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirm Delete</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to delete faculty details of  <i><b> {{teach.course_code}} {{teach.course_code.course_name}}</b></i>
+                        <br>
+                        <b>Convener's Name: </b>{{ teach.prof_id1 }} {% if teach.prof_id2 %} <b>Other Faculty: </b>{{teach.prof_id2}} {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %} <br>
+                        Note that this procedure is irreversible. But You can re-update it Later</p>
+                    <p>Do you want to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok" href="{{urs}}delete/{{teach.pk}}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+     <tr style="background:#eee;"><td>{{teach.course_code }}</td>
+     <td>{{ teach.course_code.course_name}}</td>
+          <td>{{ teach.course_code.credit }}</td>
+         <td>{% if teach.course_code.l %} {{ teach.course_code.l }} {% else %}0 {% endif %}
+    {% if teach.course_code.t %} {{ teach.course_code.t }} {% else %}0 {% endif %}
+    {% if teach.course_code.p %} {{ teach.course_code.p }} {% else %}0 {% endif %}</td>
+    <td>{{ teach.prof_id1 }}</td>
+<td>{% if teach.prof_id2 %} {{teach.prof_id2}} {% else %} None {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}}
+    {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %}
+
+<br></td>
+
+         <td>{% if teach.course_code.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
+     <td>  <center>
+         {% if not CHECK.allot %}
+         <a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete{{teach}}">
+        Delete Faculty Details
+    </a>
+     {% else %}
+     <a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#">
+        Delete Faculty Details <span class="glyphicon glyphicon-ban-circle"></span>
+
+    </a>
+
+     </center></td></tr>
+
 {% endif %}
 
-<h3>Remaining Native & Foreign Courses of <i> {{ programme_li.programme_name }} {{ programme_li.duration }} Year, {{ programme_li.branch }} {{ semester }}th Sem</i></h3>
+    <script>
+        $('#confirm-delete{{teach}}').on('show.bs.modal', function(e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+
+            $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
+        });
+    </script>
+ {% endif %}
+{% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+{% for teach in NOT_COURSE %}
+
+{% if teach.elect_or_comp == 0 %}
+     <tr ><td>{{teach.course_code }}</td>
+     <td>{{ teach.course_name}}</td>
+          <td>{{ teach.credit }}</td>
+         <td>{% if teach.l %} {{ teach.l }} {% else %}0 {% endif %}
+    {% if teach.t %} {{ teach.t }} {% else %}0 {% endif %}
+    {% if teach.p %} {{ teach.p }} {% else %}0 {% endif %}</td>
+    <td>None</td>
+<td>None</td>
+
+         <td>{% if teach.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
+     <td>
+
+
+         <center><a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete{{teach}}" disabled>
+        Delete Faculty Details <span class="glyphicon glyphicon-ban-circle"></span>
+
+    </a></center></td></tr>
+
+{% endif %}
+
+{% endfor %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% for teach in fr_courses %}
+{% if teach.elect_or_comp == 0 %}
+        <div class="modal fade" id="confirm-delete_fr{{teach}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel2">Confirm Delete</h4>
+                </div>
+
+                <div class="modal-body">
+                    <p>You are about to delete faculty details of  <i><b> {{teach.course_code}} {{teach.course.course_name}}</b></i>
+                        <br>
+                        <b>Convener's Name: </b>{{ teach.prof_id1 }} {% if teach.prof_id2 %} <b>Other Faculty: </b>{{teach.prof_id2}} {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %} <br>
+                        Note that this procedure is irreversible. But You can re-update it Later</p>
+                    <p>Do you want to proceed?</p>
+                    <p class="debug-url"></p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-danger btn-ok" href="{{urs}}delete/fr/{{teach.pk}}">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+     <tr {% if teach.prof_id1 %} style="background:#eee;" {% endif %}><td>{{teach.course_code }}</td>
+     <td>{{ teach.course.course_name}}</td>
+
+           <td>{{ teach.credit }}</td>
+         <td>{% if teach.l %} {{ teach.l }} {% else %}0 {% endif %}
+    {% if teach.t %} {{ teach.t }} {% else %}0 {% endif %}
+    {% if teach.p %} {{ teach.p }} {% else %}0 {% endif %}</td>
+    <td>{{ teach.prof_id1 }}</td>
+<td>{% if teach.prof_id2 %} {{teach.prof_id2}} {% else %} None {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %}</li>
+<br></td>
+
+         <td>{% if teach.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
+     <td>
+         {% if teach.prof_id1 and not CHECK.allot %}
+         <center><a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete_fr{{teach}}">
+        Delete Faculty Details
+    </a></center>
+     {% else %}
+          <center><a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#" disabled>
+        Delete Faculty Details <span class="glyphicon glyphicon-ban-circle"></span></a></center>
+         {% endif %}
+     </td></tr>
+
+
+
+    <script>
+        $('#confirm-delete{{teach}}').on('show.bs.modal', function(e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+
+            $('.debug-url').html('Delete URL: <strong>' + $(this).find('.btn-ok').attr('href') + '</strong>');
+        });
+    </script>
+{% endif %}
+{% endfor %}
+
+</tbody>
+       </table>
+
+
+    {% else %}
+    <br><br>
+    <div class="alert alert-info">Hey, Yet no course has been allotted to a faculty.</div>
+{% endif %}
+
+    <table class="table">
+<thead><th>Total Compulsory Subjects : {{ count }}</th>
+   </thead>
+        <thead><th>Minimum Number of Electives : {{ CHECK.minimum_elective }}</th></thead>    </table>
+
+
+
+
+
+
+
 {% if course_li or fr_courses_li %}
+<h3>Remaining Native & Foreign Courses of <i> {{ programme_li.programme_name }} {{ programme_li.duration }} Year, {{ programme_li.branch }} {{ semester }}th Sem</i></h3>
 
     <form action="submit/" method="post">
         {% csrf_token %}
@@ -185,37 +469,37 @@
         <select name="cname_{{pr.course_code}}" class="form-control">
             <option disabled selected> -- select a professor -- </option>
         {% for professor in professors %}
-            <option value="{{ professor.prof_id }}">{{ professor.prof_name }}</option>
+            <option value="{{ professor.prof_id }}">{{ professor.dept.dept_code }}-{{ professor.prof_name }}</option>
             {% endfor %}
             </select>
 </div>
             <div class="col-sm-3">
-        <h4>Other Faculty </h4>
+        <h4>Additional Faculty 1</h4>
 
         <select name="p1name{{pr}}" class="form-control">
             <option disabled selected> -- optional select -- </option>
         {% for professor in professors %}
-            <option value="{{ professor.prof_id }}">{{ professor.prof_name }}</option>
+            <option value="{{ professor.prof_id }}">{{ professor.dept.dept_code }}-{{ professor.prof_name }}</option>
             {% endfor %}
             </select>
 </div>
             <div class="col-sm-3">
-        <h4>Other Faculty</h4>
+        <h4>Additional Faculty 2</h4>
 
         <select name="p2name{{pr}}" class="form-control">
             <option disabled selected> -- optional select -- </option>
         {% for professor in professors %}
-            <option value="{{ professor.prof_id }}">{{ professor.prof_name }}</option>
+            <option value="{{ professor.prof_id }}">{{ professor.dept.dept_code }}-{{ professor.prof_name }}</option>
             {% endfor %}
             </select>
 </div>
                     <div class="col-sm-3">
-        <h4>Other Faculty</h4>
+        <h4>Additional Faculty 3</h4>
 
         <select name="p3name{{pr}}" class="form-control">
             <option disabled selected> -- optional select -- </option>
         {% for professor in professors %}
-            <option value="{{ professor.prof_id }}">{{ professor.prof_name }}</option>
+            <option value="{{ professor.prof_id }}">{{ professor.dept.dept_code }}-{{ professor.prof_name }}</option>
             {% endfor %}
             </select>
 </div>
@@ -231,7 +515,7 @@
  {% for pr in fr_courses_li %}
     <div class="col-sm-12">
     <br>
-
+<br>
         <h4> {{forloop.counter}}.Course Name :
 
 
@@ -285,14 +569,42 @@
 
          <button type="submit" class="btn pull-right" value="submit">Submit</button>
     </form>
-{% else %}
-    <div class="alert alert-success">Congrats! You're done! There's no course left for allocation</div>
+
+    {% elif not  CHECK.allot and CHECK.course %}
+    <div class="alert alert-success">Congrats! You're done! There's no course left for allocation, You can now lock the course-faculty association
+        and can return to Dashboard</div>
+   <center>
+    <button onclick="confirm_fn();"><span class="glyphicon glyphicon-lock"></span> Lock Courses</button>
+
+</center>
+
+    {% elif CHECK.allot %}
+     <div class="alert alert-success">Congrats! You're done! You have locked the course, You can return to dashboard for printing or exporting</div>
 {% endif %}
 
 
     </div>
+  <script> function confirm_fn(){
+swal({   title: "Are you sure?",
+ text: "After this you won't be able to Edit any course!",
+  type: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#DD6B55",
+  confirmButtonText: "Yes, Lock it!",
+   closeOnConfirm: true
+   },
+   function(response){
+   if (response==true){
+   window.location = "lock";
+   }
+   else {
+   console.log('You clicked Cancel');
+   }
+   });
+   }
 
 
+</script>
 
 {% endblock %}
 </body>

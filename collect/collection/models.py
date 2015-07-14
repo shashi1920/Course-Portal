@@ -16,8 +16,8 @@ class dept(models.Model):
         return self.dept_name
 
 class programme(models.Model): #Btech/IDD/M.Tech/B.Pharm etc
-    programme_code=models.CharField(max_length=5)
-    programme_name=models.CharField(max_length=200)
+    programme_code=models.CharField(max_length=20)
+    programme_name=models.CharField(max_length=250)
     duration=models.IntegerField(max_length=2)
     branch=models.ForeignKey(dept,blank=False,null=False)
     def __str__(self):              # __unicode__ on Python 2
@@ -73,7 +73,14 @@ class ForeignCourseList(models.Model):
     prof_id4 = models.ForeignKey(Professor, null=True, blank=True, related_name='fr_prof_id4')
     def __str__(self):              # __unicode__ on Python 2
         return self.course_code
-
+class CheckList(models.Model):
+    programme=models.ForeignKey(programme)
+    semester=models.IntegerField()
+    course=models.BooleanField(default=False)
+    minimum_elective=models.IntegerField()
+    allot=models.BooleanField(default=False)
+    def __str__(self):              # __unicode__ on Python 2
+        return str(self.semester)
 class ProposedCourseList(models.Model):
     course_code = models.CharField(max_length=10)
     course_name = models.CharField(max_length=150)

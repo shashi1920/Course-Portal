@@ -9,6 +9,7 @@ from .models import ProposedCourseTeaching
 from .models import ApprovedCourseList
 from .models import ApprovedCourseTeaching
 from .models import ForeignCourseList
+from .models import CheckList
 
 admin.site.register(Profile)
 admin.site.register(ProposedCourseTeaching)
@@ -20,6 +21,7 @@ admin.site.register(dept)
 admin.site.register(programme)
 admin.site.register(Professor)
 admin.site.register(ActivityLog)
+admin.site.register(CheckList)
 
 
 # Register your models here.
