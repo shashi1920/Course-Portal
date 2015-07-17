@@ -2,8 +2,12 @@
 <link href="{% static 'collection/bootstrap.min.css' %}" rel="stylesheet">
 <script src="{% static 'collection/js/main.js' %}"></script>
 <link href="{% static 'collection/loginform.css' %}" rel="stylesheet">
+<script src="/static/js/jquery.js"></script>
+  <script src="/static/js/main.js"></script>
+		<script src="/static/js/bootstrap.min.js"></script>
 
-<div class="container">
+<title>Login- Course Portal</title>
+<!-- <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="wrap">
@@ -11,7 +15,7 @@
                     Sign In</p>
                     <!--{% if form.errors %}
 <p>Your username and password didn't match. Please try again.</p>
-{% endif %}-->
+{% endif %}
                 <div class="wrap">
                     <p class="form-error"><strong>{{ state }}</strong></p>
                 </div>
@@ -40,4 +44,112 @@
         </div>
     </div>
     <div class="posted-by">Created By: <a href="https://github.com/shashi1920">Shashikant Sharma</a></div>
+</div> -->
+<!--
+ * parallax_login.html
+ * @Author original @msurguy (tw) -> http://bootsnipp.com/snippets/featured/parallax-login-form
+ * @Tested on FF && CH
+ * @Reworked by @kaptenn_com (tw)
+ * @package PARALLAX LOGIN.
+--><div id="nav">
+  <div class="navbar navbar-default navbar-fixed-top" data-spy="affix" data-offset-top="100">
+    <div class="container">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <a href="#" class="navbar-brand">IIT(BHU) Course Portal</a>
+      <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="glyphicon glyphicon-bar"></span>
+        <span class="glyphicon glyphicon-bar"></span>
+        <span class="glyphicon glyphicon-bar"></span>
+      </a>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/login" >Login Page</a></li>
+
+        </ul>
+        <ul class="nav pull-right navbar-nav">
+
+          <li>
+            <a href="#"><span class="badge">{{ user }}</span></a>
+               <li>
+
+          </li>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div><!-- /.navbar -->
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <script src="http://mymaplist.com/js/vendor/TweenLite.min.js"></script>
+        <body>
+            <div class="container">
+                <div class="row vertical-offset-100">
+                    <div class="col-md-4 col-md-offset-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="row-fluid user-row">
+                                    <img src="/static/collection/images/IIT_BHU_Logo.jpg" class="img-responsive" alt="Conxole Admin"/>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+
+<div class="wrap">
+                    <p class="form-error" style="color:red; text-align:center;"><strong>{% for message in messages %}<span class="glyphicon glyphicon-remove"> </span> Error ! {{ message }} {% endfor %}</strong></p>
+                </div>
+                                <form class="form-signin"  method="post" action="{% url 'login_user' %}" >
+                                    {% csrf_token %}
+                                    <fieldset>
+                                        <label class="panel-login">
+                                            <div class="login_result"><center>You need to login before you can proceed further</center></div>
+                                        </label>
+                                        <input class="form-control" placeholder="Username" type="text" name="username" required="">
+                                        <input class="form-control" placeholder="Password" type="password" name="pass" required="">
+                                        <br>
+                                        <input class="btn btn-lg btn-success btn-block" type="submit" id="login" value="Login »">
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+
+ <script>$(document).ready(function() {
+    $(document).mousemove(function(event) {
+        TweenLite.to($("body"),
+        .5, {
+            css: {
+                backgroundPosition: "" + parseInt(event.pageX / 12) + "px " + parseInt(event.pageY / '12') + "px, " + parseInt(event.pageX / '15') + "px " + parseInt(event.pageY / '15') + "px, " + parseInt(event.pageX / '30') + "px " + parseInt(event.pageY / '30') + "px",
+            	"background-position": parseInt(event.pageX / 12) + "px " + parseInt(event.pageY / 12) + "px, " + parseInt(event.pageX / 15) + "px " + parseInt(event.pageY / 15) + "px, " + parseInt(event.pageX / 30) + "px " + parseInt(event.pageY / 30) + "px"
+            }
+        })
+    })
+})</script>

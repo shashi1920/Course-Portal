@@ -1,0 +1,61 @@
+{% extends "collection/index.html" %}
+  {% block body  %}
+{% if pr %}
+  <h2>Course-Faculty Association data for {{ pr.programme_name }}</h2>
+{% for i in sem %}
+<h3>Semester {{ i.1 }}</h3>
+<table class="table table-bordered" >
+    <thead>
+    <th>Course Code</th>
+    <th>Course Name</th>
+    <th>Syllabus</th>
+    <th>L</th>
+    <th>T</th>
+    <th>P</th>
+    <th>Credit</th>
+    <th>Convener Name</th>
+    <th>Additional Faculty</th>
+    <th>Type</th>
+    </thead>
+    {% for courses in course_list %}
+
+    {% if courses.semester == i.0 %}
+<tr>
+    <td>{{ courses.course_code.course_code }}</td>
+       <td>{{ courses.course_code.course_name }}</td>
+    <td>{{courses.course_code.syllabus}}</td>
+   <td>{% if courses.l %} {{courses.l}} {% else %} 0 {% endif %}</td>
+    <td>{% if courses.t %} {{courses.t}} {% else %} 0 {% endif %}</td>
+    <td>{% if courses.p %} {{courses.p}} {% else %} 0 {% endif %}</td>
+    <td>{{courses.course_code.credit}}</td>
+    <td>{{courses.prof_id1}}</td>
+    <td>{% if courses.prof_id2 %} {{courses.prof_id2}} {% else %} None {% endif %} {% if courses.prof_id3 %} ,
+        {{courses.prof_id3}} {% endif %}{% if courses.prof_id4 %}, {{courses.prof_id4}}{% endif %}</td>
+        <td>{% if courses.course_code.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+
+
+       {% for courses in fr_course_list %}
+
+    {% if courses.semester == i.0 %}
+<tr>
+    <td>{{ courses.course_code }}</td>
+       <td>{{ courses.course.course_name }}</td>
+    <td>{{courses.course.syllabus}}</td>
+    <td>{% if courses.l %} {{courses.l}} {% else %} 0 {% endif %}</td>
+    <td>{% if courses.t %} {{courses.t}} {% else %} 0 {% endif %}</td>
+    <td>{% if courses.p %} {{courses.p}} {% else %} 0 {% endif %}</td>
+    <td>{{courses.credit}}</td>
+    <td>{{courses.prof_id1}}</td>
+    <td>{% if courses.prof_id2 %} {{courses.prof_id2}} {% else %} None {% endif %} {% if courses.prof_id3 %} ,
+        {{courses.prof_id3}} {% endif %}{% if courses.prof_id4 %}, {{courses.prof_id4}}{% endif %}</td>
+        <td>{% if courses.course_code.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+</table>
+{% endfor %}
+{% endif %}
+{% endblock %}

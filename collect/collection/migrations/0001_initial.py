@@ -13,13 +13,25 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='ActivityLog',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('log', models.CharField(max_length=1500)),
+                ('date_time', models.DateTimeField(auto_now=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='ApprovedCourseList',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('course_code', models.CharField(max_length=10)),
                 ('course_name', models.CharField(max_length=150)),
-                ('syllabus', models.CharField(max_length=2500)),
+                ('syllabus', models.CharField(max_length=2500, null=True, blank=True)),
                 ('credit', models.IntegerField(max_length=2)),
+                ('l', models.IntegerField(null=True, blank=True)),
+                ('t', models.IntegerField(null=True, blank=True)),
+                ('elect_or_comp', models.IntegerField(default=1, max_length=1, blank=True)),
+                ('p', models.IntegerField(null=True, blank=True)),
                 ('semester', models.IntegerField(max_length=2)),
             ],
         ),
@@ -28,10 +40,18 @@ class Migration(migrations.Migration):
             fields=[
                 ('application_no', models.AutoField(serialize=False, primary_key=True)),
                 ('semester', models.IntegerField(max_length=2)),
-                ('course', models.CharField(max_length=10)),
                 ('date_added', models.DateTimeField(auto_now=True)),
-                ('elect_or_comp', models.IntegerField(max_length=1)),
                 ('course_code', models.ForeignKey(to='collection.ApprovedCourseList')),
+            ],
+        ),
+        migrations.CreateModel(
+            name='CheckList',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('semester', models.IntegerField()),
+                ('course', models.BooleanField(default=False)),
+                ('minimum_elective', models.IntegerField()),
+                ('allot', models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(
@@ -46,7 +66,13 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('course_code', models.CharField(max_length=10)),
-                ('credit', models.IntegerField()),
+                ('credit', models.IntegerField(null=True, blank=True)),
+                ('semester', models.IntegerField()),
+                ('l', models.IntegerField(null=True, blank=True)),
+                ('t', models.IntegerField(null=True, blank=True)),
+                ('p', models.IntegerField(null=True, blank=True)),
+                ('elect_or_comp', models.IntegerField(default=1, max_length=1, blank=True)),
+                ('date_added', models.DateTimeField(auto_now=True)),
                 ('course', models.ForeignKey(to='collection.ApprovedCourseList')),
             ],
         ),
@@ -56,7 +82,7 @@ class Migration(migrations.Migration):
                 ('prof_id', models.IntegerField(serialize=False, primary_key=True)),
                 ('prof_name', models.CharField(max_length=150)),
                 ('email', models.EmailField(max_length=254)),
-                ('designation', models.CharField(max_length=3, choices=[(b'P', b'Professor'), (b'ASP', b'Assistant Professor'), (b'APT', b'Associate Professor')])),
+                ('designation', models.CharField(blank=True, max_length=3, null=True, choices=[(b'P', b'Professor'), (b'ASP', b'Assistant Professor'), (b'APT', b'Associate Professor')])),
                 ('dept', models.ForeignKey(to='collection.dept')),
             ],
         ),
@@ -72,8 +98,8 @@ class Migration(migrations.Migration):
             name='programme',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('programme_code', models.CharField(max_length=5)),
-                ('programme_name', models.CharField(max_length=200)),
+                ('programme_code', models.CharField(max_length=25)),
+                ('programme_name', models.CharField(max_length=250)),
                 ('duration', models.IntegerField(max_length=2)),
                 ('branch', models.ForeignKey(to='collection.dept')),
             ],
@@ -114,18 +140,23 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='foreigncourselist',
-            name='level_0',
-            field=models.ForeignKey(related_name='for_level_0_list', blank=True, to='collection.Profile', null=True),
+            name='prof_id1',
+            field=models.ForeignKey(blank=True, to='collection.Professor', null=True),
         ),
         migrations.AddField(
             model_name='foreigncourselist',
-            name='level_1',
-            field=models.ForeignKey(related_name='for_level_1_list', blank=True, to='collection.Profile', null=True),
+            name='prof_id2',
+            field=models.ForeignKey(related_name='fr_prof_id2', blank=True, to='collection.Professor', null=True),
         ),
         migrations.AddField(
             model_name='foreigncourselist',
-            name='level_2',
-            field=models.ForeignKey(related_name='for_level_2_list', blank=True, to='collection.Profile', null=True),
+            name='prof_id3',
+            field=models.ForeignKey(related_name='fr_prof_id3', blank=True, to='collection.Professor', null=True),
+        ),
+        migrations.AddField(
+            model_name='foreigncourselist',
+            name='prof_id4',
+            field=models.ForeignKey(related_name='fr_prof_id4', blank=True, to='collection.Professor', null=True),
         ),
         migrations.AddField(
             model_name='foreigncourselist',
@@ -135,7 +166,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='dept',
             name='head',
-            field=models.ForeignKey(to='collection.Profile'),
+            field=models.ForeignKey(to='collection.Profile', unique=True),
+        ),
+        migrations.AddField(
+            model_name='checklist',
+            name='programme',
+            field=models.ForeignKey(to='collection.programme'),
         ),
         migrations.AddField(
             model_name='approvedcourseteaching',
@@ -196,5 +232,10 @@ class Migration(migrations.Migration):
             model_name='approvedcourselist',
             name='programme',
             field=models.ForeignKey(to='collection.programme'),
+        ),
+        migrations.AddField(
+            model_name='activitylog',
+            name='USER',
+            field=models.ForeignKey(to='collection.Profile'),
         ),
     ]

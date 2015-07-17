@@ -1,32 +1,139 @@
-{% load staticfiles %}
+<!--{% load staticfiles %}-->
 <link href="{% static 'collection/bootstrap.min.css' %}" rel="stylesheet">
-<link href="{% static 'collection/loginform.css' %}" rel="stylesheet">
 <script src="{% static 'collection/js/main.js' %}"></script>
-<div class="container">
+<link href="{% static 'collection/loginform.css' %}" rel="stylesheet">
+<script src="/static/js/jquery.js"></script>
+  <script src="/static/js/main.js"></script>
+		<script src="/static/js/bootstrap.min.js"></script>
+<title>Logout-IIT(BHU) Course Portal</title>
+<div id="nav">
+  <div class="navbar navbar-default navbar-fixed-top" data-spy="affix" data-offset-top="100">
+    <div class="container">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <a href="#" class="navbar-brand">IIT(BHU) Course Portal</a>
+      <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="glyphicon glyphicon-bar"></span>
+        <span class="glyphicon glyphicon-bar"></span>
+        <span class="glyphicon glyphicon-bar"></span>
+      </a>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/login" >Logout Page</a></li>
+
+        </ul>
+        <ul class="nav pull-right navbar-nav">
+
+          <li>
+            <a href="#"><span class="badge">{{ user }}</span></a>
+               <li>
+
+          </li>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div><!-- /.navbar -->
+</div>
+
+<!-- <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div class="pr-wrap">
-                <div class="pass-reset">
-                    <label>
-                        Enter the email you signed up with</label>
-                    <input type="email" placeholder="Email" />
-                    <input type="submit" value="Submit" class="pass-reset-submit btn btn-success btn-sm" />
-                </div>
-            </div>
             <div class="wrap">
                 <p class="form-title">
-                    Logged out!</p>
-            <form action="{% url 'login_user' %}" class="login" >
-                <input type="submit" value="Log In again" class="btn btn-info">
-            </form>
-
-
-
-
-
-
+                    Sign In</p>
+                    <!--{% if form.errors %}
+<p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+                <div class="wrap">
+                    <p class="form-error"><strong>{{ state }}</strong></p>
+                </div>
+                <form class="login" method="post" action="{% url 'login_user' %}">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Username" />
+                <input type="password" name="pass" placeholder="Password" />
+                <input type="submit" value="Sign In" class="btn btn-success btn-sm" />
+                <div class="remember-forgot">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="checkbox">
+                                <label>
+                                    <input name="remember" type="checkbox" />
+                                    Remember Me
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 forgot-pass-content">
+                            <a href="javascription:void(0)" class="forgot-pass">Forgot Password</a>
+                        </div>
+                    </div>
+                </div>
+                </form>
             </div>
         </div>
     </div>
     <div class="posted-by">Created By: <a href="https://github.com/shashi1920">Shashikant Sharma</a></div>
-</div>
+</div> -->
+<!--
+ * parallax_login.html
+ * @Author original @msurguy (tw) -> http://bootsnipp.com/snippets/featured/parallax-login-form
+ * @Tested on FF && CH
+ * @Reworked by @kaptenn_com (tw)
+ * @package PARALLAX LOGIN.
+-->
+        <script src="http://mymaplist.com/js/vendor/TweenLite.min.js"></script>
+        <body>
+            <div class="container">
+                <div class="row vertical-offset-100">
+                    <div class="col-md-4 col-md-offset-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="row-fluid user-row">
+                                    <img src="/static/collection/images/IIT_BHU_Logo.jpg" class="img-responsive" alt="Conxole Admin"/>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+
+<div class="wrap">
+
+                </div>
+                                <form class="form-signin"  method="post" >
+                                    {% csrf_token %}
+                                    <fieldset>
+                                        <label class="panel-login">
+                                            <div class="login_result">
+
+
+                                                {% for message in messages %}
+                                                                        {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                                <p class="form-error" style="color:red; text-align:center;"><strong> {{ message }} </strong></p> {% endif %} {% endfor %}
+                                                {% for message in messages %}
+                                                                        {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                                <p class="form-error" style="color:green; text-align:center;"><strong> {{ message }} </strong></p> {% endif %} {% endfor %}
+
+
+                                            </div>
+                                        </label>
+
+
+                                        <br>
+                                        <a class="btn btn-lg btn-success btn-block" type="submit" id="login" href="/login">Login again</a>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </body>
+
+ <script>$(document).ready(function() {
+    $(document).mousemove(function(event) {
+        TweenLite.to($("body"),
+        .5, {
+            css: {
+                backgroundPosition: "" + parseInt(event.pageX / 8) + "px " + parseInt(event.pageY / '12') + "px, " + parseInt(event.pageX / '15') + "px " + parseInt(event.pageY / '15') + "px, " + parseInt(event.pageX / '30') + "px " + parseInt(event.pageY / '30') + "px",
+            	"background-position": parseInt(event.pageX / 8) + "px " + parseInt(event.pageY / 12) + "px, " + parseInt(event.pageX / 15) + "px " + parseInt(event.pageY / 15) + "px, " + parseInt(event.pageX / 30) + "px " + parseInt(event.pageY / 30) + "px"
+            }
+        })
+    })
+})</script>

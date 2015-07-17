@@ -1,18 +1,14 @@
 /**
  * parallax.css
  * @Author Original @msurguy -> http://bootsnipp.com/snippets/featured/parallax-login-form
- * @Reworked By @kaptenn_com 
+ * @Reworked By @kaptenn_com
  * @package PARALLAX LOGIN.
  */
-    
+
     body {
         background-color: #444;
-        background: url(http://onlyfreewallpaper.com/download/blur-winter-1366x768.jpg) center center fixed;
-  -webkit-background-size: cover;
-  -moz-background-size: cover;
-  -o-background-size: cover;
-  background-size: cover;
-        
+        background: url(http://s18.postimg.org/l7yq0ir3t/pick8_1.jpg);
+
     }
     .form-signin input[type="text"] {
         margin-bottom: 5px;
@@ -51,30 +47,3 @@
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
     box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
     }
-    /* CSS used here will be applied after bootstrap.css */
-html,body {
-	height:100%;
-    padding-top:60px;
-}
-
-section {
-  height:calc(90% - 50px);
-}
-
-.affix {
-  padding:0px;
-  -webkit-transition:padding 0.2s linear;
-  -moz-transition:padding 0.2s linear;
-  -o-transition:padding 0.2s linear;
-  transition:padding 0.2s linear;
-
-}
-
-.affix-top {
-  padding-top:15px;
-  padding-bottom:15px;
-  -webkit-transition:padding 0.5s linear;
-  -moz-transition:padding 0.5s linear;
-  -o-transition:padding 0.5s linear;
-  transition:padding 0.5s linear;
-}

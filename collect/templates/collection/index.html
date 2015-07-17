@@ -17,28 +17,35 @@
         <script src="/static/css/sweetalert/dist/sweetalert.min.js"></script> <link rel="stylesheet" type="text/css" href="/static/css/sweetalert/dist/sweetalert.css">
 	</head>
 	<body>
-<div class="navbar navbar-default navbar-static-top">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">IIT(BHU) Course Portal</a>
-    </div>
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="/login">Home</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="{% url 'logout_user' %}">Logout</a></li>
-      </ul>
-    </div><!--/.nav-collapse -->
-  </div>
-</div>
+<!-- Begin Navbar -->
+<div id="nav">
+  <div class="navbar navbar-default navbar-fixed-top" data-spy="affix" data-offset-top="100">
+    <div class="container">
+      <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+      <a href="#" class="navbar-brand">IIT(BHU) Course Portal</a>
+      <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="glyphicon glyphicon-bar"></span>
+        <span class="glyphicon glyphicon-bar"></span>
+        <span class="glyphicon glyphicon-bar"></span>
+      </a>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/login" >Dashboard</a></li>
 
+        </ul>
+        <ul class="nav pull-right navbar-nav">
+
+          <li>
+            <a href="#"><span class="badge">{{ user }}</span></a>
+               <li>
+           <a href="/logout">logout</a>
+          </li>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div><!-- /.navbar -->
+</div>
 <div class="container">
     {% if messages %}
 <div class="row">
@@ -48,10 +55,10 @@
 
     {% for message in messages %}
         {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
-    <div class="oaerror success">
-
-        <strong>SUCCESS</strong> - {{ message | safe }}
-        </div>
+          <div class="alert alert-success-alt alert-dismissable">
+                <span class="glyphicon glyphicon-bullhorn"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    ×</button><strong>Success!</strong> {{ message | safe }} </div>
      {% endif %}
 
     {% endfor %}
@@ -63,10 +70,10 @@
 
     {% for message in messages %}
         {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
-    <div class="oaerror danger">
-
-        <strong>Error</strong> - {{ message | safe  }}
-        </div>
+          <div class="alert alert-danger-alt alert-dismissable">
+                <span class="glyphicon glyphicon-remove"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    ×</button><strong>Error!</strong> {{ message | safe }} </div>
 {% endif %}
     {% endfor %}
 
@@ -77,10 +84,12 @@
 
     {% for message in messages %}
         {% if message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
-    <div class="oaerror danger">
 
-        <strong>Error</strong> - {{ message | safe }}
-        </div>
+           <div class="alert alert-purple alert-dismissable">
+                <span class="glyphicon glyphicon-bullhorn"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+                    ×</button><strong>Notification!</strong> {{ message | safe }} </div>
+
 {% endif %}
     {% endfor %}
 
@@ -100,7 +109,20 @@
 <script src="/static/js/jquery.js"></script>
   <script src="/static/js/main.js"></script>
 		<script src="/static/js/bootstrap.min.js"></script>
+    <div class="footer-bottom">
+        <div class="container">
+            <p class="pull-left"><span class="pull-right">Copyright © IIT(BHU), Varanasi</span></p>
 
+            <div class="pull-right">
+                <ul class="nav nav-pills payments">
+                	<li><i class="fa fa-cc-visa"></i></li>
+                    <li><i class="fa fa-cc-mastercard"></i></li>
+                    <li><i class="fa fa-cc-amex"></i></li>
+                    <li><i class="fa fa-cc-paypal"></i></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
 
 	</body>

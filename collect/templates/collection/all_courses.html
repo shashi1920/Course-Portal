@@ -20,7 +20,7 @@
       </tr>
     </thead>
        <tbody>
-       {% if fr_courses %}
+       {% if courses %}
    <th style="border:0px"><b>Courses of your Departments</b></th>
     {% endif %}
     {% for courses in courses %}
@@ -63,19 +63,19 @@
                 </div>
 
                 <div class="modal-body">
-                    <p>You can override the fields, leaving blank will not update anything.</p>
+                    <p>You can update details from the form below</p>
                     <form action="edit/{{courses.pk}}/" method="post">
     {% csrf_token %}
                         <div class="row">
     <div class="col-sm-3">
-        Course Code<input type="text" name="course_code" class="form-control" placeholder="{{courses.course_code}}">
+        Course Code<input type="text" name="course_code" class="form-control" value="{{courses.course_code}}">
     </div>
      <div class="col-sm-9">
-        Course Name<input type="text" name="course_name" class="form-control" placeholder="{{courses.course_name}}" >
+        Course Name<input type="text" name="course_name" class="form-control" value="{{courses.course_name}}" >
     </div>
     <div class="col-sm-3">
         <br>
-        Credits<input type="number" name="credit" class="form-control" placeholder="{{ courses.credit }}">
+        Credits<input type="number" name="credit" class="form-control" value="{{ courses.credit }}">
     </div>
      <div class="col-sm-9">
          <br>
@@ -83,17 +83,17 @@
 <input type="radio" name="elect_or_comp" value="1"  {% if courses.elect_or_comp == 1 %} checked {% endif %}>Compulsory
     </div>
          <div class="col-sm-12">
-        Syllabus<input type="text" name="syllabus" class="form-control" placeholder="{{courses.syllabus}}">
+        Syllabus<input type="text" name="syllabus" class="form-control" value="{{courses.syllabus}}">
     </div>
 
     <div class="col-sm-3">
-        Lectures<input type="number" name="l" class="form-control" placeholder="{{courses.l}}">
+        Lectures<input type="number" name="l" class="form-control" value="{{courses.l}}">
     </div>
     <div class="col-sm-3">
-        Tutorials<input type="number" name="t" class="form-control" placeholder="{{courses.t}}">
+        Tutorials<input type="number" name="t" class="form-control" value="{{courses.t}}">
     </div>
     <div class="col-sm-3">
-        Practicals<input type="number" name="p" class="form-control" placeholder="{{courses.p}}">
+        Practicals<input type="number" name="p" class="form-control" value="{{courses.p}}">
     </div>
     <div class="col-sm-12">
         <div class="modal-footer">
@@ -122,6 +122,7 @@
  <td>{{courses.semester}}</td><td>{{courses.credit}}</td><td>{% if courses.l %} {{ courses.l }} {% else %}0 {% endif %}
     {% if courses.t %} {{ courses.t }} {% else %}0 {% endif %}
     {% if courses.p %} {{ courses.p }} {% else %}0 {% endif %}</td>
+
               <td> {% if courses.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
               {% if not CHECK.course %}
 <td>  <center><a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete{{courses.pk}}">
@@ -194,19 +195,20 @@
                 </div>
 
                 <div class="modal-body">
-                    <p>You can override the fields, leaving blank will not update anything.</p>
+                    <p>You can update details from the form below</p>
                     <form action="edit/fr/{{courses.pk}}/" method="post">
     {% csrf_token %}
                         <div class="row">
     <div class="col-sm-3">
-        Course Code<input type="text" name="course_code" class="form-control" placeholder="{{courses.course_code}}">
+        Course Code<input type="text" name="course_code" class="form-control" value="{{courses.course_code}}">
     </div>
      <div class="col-sm-9">
-        Course Name<input type="text" name="course_name" class="form-control" placeholder="{{courses.course.course_name}}" >
+        Course Name<input type="text" name="course_name" class="form-control" value="{{courses.course.course_name}}" disabled >
+         <p style="color:red;"> *You can't edit course name offered from other department</p>
     </div>
     <div class="col-sm-3">
         <br>
-        Credits<input type="number" name="credit" class="form-control" placeholder="{{ courses.credit }}">
+        Credits<input type="number" name="credit" class="form-control" value="{{ courses.credit }}">
     </div>
      <div class="col-sm-9">
          <br>
@@ -214,17 +216,18 @@
 <input type="radio" name="elect_or_comp" value="1"  {% if courses.elect_or_comp == 1 %} checked {% endif %}>Compulsory
     </div>
          <div class="col-sm-12">
-        Syllabus<input type="text" name="syllabus" class="form-control" placeholder="{{courses.course.syllabus}}">
+        Syllabus<input type="text" name="syllabus" class="form-control" value="{{courses.course.syllabus}}" disabled>
+             <p style="color:red">*You can't modify syllabus of a course, that is offered from other department</p>
     </div>
 
     <div class="col-sm-3">
-        Lectures<input type="number" name="l" class="form-control" placeholder="{{courses.l}}">
+        Lectures<input type="number" name="l" class="form-control" value="{{courses.l}}">
     </div>
     <div class="col-sm-3">
-        Tutorials<input type="number" name="t" class="form-control" placeholder="{{courses.t}}">
+        Tutorials<input type="number" name="t" class="form-control" value="{{courses.t}}">
     </div>
     <div class="col-sm-3">
-        Practicals<input type="number" name="p" class="form-control" placeholder="{{courses.p}}">
+        Practicals<input type="number" name="p" class="form-control" value="{{courses.p}}">
     </div>
     <div class="col-sm-12">
         <div class="modal-footer">
@@ -253,6 +256,7 @@
  <td>{{courses.semester}}</td><td>{{courses.credit}}</td><td>{% if courses.l %} {{ courses.l }} {% else %}0 {% endif %}
     {% if courses.t %} {{ courses.t }} {% else %}0 {% endif %}
     {% if courses.p %} {{ courses.p }} {% else %}0 {% endif %}</td>
+
               <td> {% if courses.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
               {% if not CHECK.course %}
 <td>  <center><a class="btn" data-href="/delete.php?id=54" data-toggle="modal" data-target="#confirm-delete_fr{{courses.pk}}">
@@ -298,7 +302,7 @@
                         <div class="row">
 
     <div class="col-sm-3">
-        Enter Minimum no. of electives<input type="number" name="minimum_elective" class="form-control" placeholder="{{CHECK.minimum_elective}}">
+        Enter Minimum no. of electives<input type="number" name="minimum_elective" class="form-control" value="{{CHECK.minimum_elective}}">
     </div>
     <div class="col-sm-12">
         <div class="modal-footer">

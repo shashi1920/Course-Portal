@@ -46,7 +46,11 @@
 
 
 
-<th style="border:0px;"> <b>Compulsory Courses</b> </th>
+<tr>
+
+
+
+<td style="border:0px" colspan="3"><b>Compulsory Subjects</b></td></tr>
 
 {% for teach in teaching %}
 {% if teach.course_code.elect_or_comp == 1 %}
@@ -204,7 +208,7 @@
     {% if teach.t %} {{ teach.t }} {% else %}0 {% endif %}
     {% if teach.p %} {{ teach.p }} {% else %}0 {% endif %}</td>
     <td>{{ teach.prof_id1 }}</td>
-<td>{% if teach.prof_id2 %} {{teach.prof_id2}} {% else %} None {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %}</li>
+<td>{% if teach.prof_id2 %} {{teach.prof_id2}} {% else %} None {% endif %} {% if teach.prof_id3 %} , {{teach.prof_id3}} {% endif %}{% if teach.prof_id4 %}, {{teach.prof_id4}}{% endif %}
 <br></td>
 
          <td>{% if teach.elect_or_comp == 1 %} Compulsory {% else %} Elective {% endif %}</td>
@@ -230,18 +234,18 @@
     </script>
 {% endif %}
 {% endfor %}
+</tbody>
 
 
 
 
 
 
+<tr>
 
 
 
-
-
-<th style="border:0px">Elective Subjectives </th>
+<td style="border:0px" colspan="3"><b>Elective Subjects</b></td></tr>
 
 {% for teach in teaching %}
 {% if teach.course_code.elect_or_comp == 0 %}

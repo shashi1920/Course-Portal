@@ -7,12 +7,13 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('collection', '0002_auto_20150629_0639'),
+        ('collection', '0002_auto_20150716_1406'),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='approvedcourseteaching',
-            name='course',
+        migrations.AlterField(
+            model_name='approvedcourselist',
+            name='elect_or_comp',
+            field=models.IntegerField(default=1),
         ),
     ]

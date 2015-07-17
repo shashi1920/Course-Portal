@@ -25,21 +25,41 @@ def programme_list(request, br):
     profile = Profile.objects.get(user=request.user)
     if len(dept.objects.filter(head=profile))==0 or str(dept.objects.filter(head=profile)[0].dept_code) != br:
         return render(request,'registration/denied.html')
+
     pr=programme.objects.filter(branch=br)
+    for PR in pr:
+        global i
+        i=1
+        while i<((PR.duration)*2):
+            CHECK_CHECK=CheckList.objects.filter(programme=PR,semester=i).count()
+            if not CHECK_CHECK:
+
+                p=CheckList(programme=PR,semester=i,allot=0,course=0,minimum_elective=0)
+                p.save()
+            i+=2
+
     check=CheckList.objects.filter(programme=pr).order_by('semester')
     dr=dept.objects.get(dept_code=br)
     activity_log=ActivityLog.objects.filter(USER=profile).order_by('-date_time')[:2]
+
     context={'programme_li' : pr,'deptm': dr,'activity_log':activity_log,'profile':profile,'check':check}
     #return HttpResponse(br)
     return render(request,'collection/programme.html',context)
 
 def pro_course_list(request, kr, pro,sem):
+
     if not request.user.is_authenticated():
         return render(request,'registration/denied.html')
     profile = Profile.objects.filter(user=request.user)
     if len(dept.objects.filter(head=profile))==0 or str(dept.objects.filter(head=profile)[0].dept_code) != kr:
         return render(request,'registration/denied.html')
+
     pr=programme.objects.get(branch=kr,programme_code=pro)
+    CHECK_CHECK=CheckList.objects.filter(programme=pr,semester=sem).count()
+
+    if not CHECK_CHECK:
+        p=CheckList(programme=pr,semester=sem,allot=0,course=0,minimum_elective=0)
+        p.save()
     CHECK=CheckList.objects.get(programme=pr,semester=sem)
     if CHECK.course==False:
         messages.warning(request,"First verify and lock the list of courses then only you can assign the faculty")
@@ -85,50 +105,37 @@ def pro_course_list(request, kr, pro,sem):
     url="/programme/"+kr+"/"+pro+"/"+sem+"/"
     context={'programme_li' : pr ,'course_li' : course_li,'professors':prof,'semester':sem,'teaching' : teaching,'url':url,'fr_courses':fr_courses,'fr_courses_li':fr_courses_li,'NOT_COURSE':NOT_COURSE,'CHECK':CHECK,'count':count}
     return  render(request,'collection/course_list.html',context)
-def pro_course_list_print(request, kr, pro,sem):
+
+
+
+def pro_course_list_print(request, kr, pro):
+
     if not request.user.is_authenticated():
         return render(request,'registration/denied.html')
-    profile = Profile.objects.get(user=request.user)
+    profile = Profile.objects.filter(user=request.user)
     if len(dept.objects.filter(head=profile))==0 or str(dept.objects.filter(head=profile)[0].dept_code) != kr:
         return render(request,'registration/denied.html')
     pr=programme.objects.get(branch=kr,programme_code=pro)
-    #msg=br+PR
-    #return HttpResponse(pro)
-    teaching=ApprovedCourseTeaching.objects.filter(programme=pr,semester=sem)
-    courses=ApprovedCourseList.objects.filter(programme=pr,semester=sem)
-    count=0
-    for cr in courses:
-        if(cr.elect_or_comp == 1):
-            count+=1
-
-    fr_courses1=ForeignCourseList.objects.filter(programme=pr,semester=sem)
-    for cr in fr_courses1:
-        if(cr.elect_or_comp == 1):
-            count+=1
     global flag
     flag=1
-    course_li=[]
-    global  NOT_COURSE
-    NOT_COURSE=[]
-    if courses:
-        for cr in courses:
-            NOT_COURSE.append(cr)
-    if courses:
-        for cr in courses:
-            if teaching:
-                for teach in teaching:
-                    if teach.course_code.course_code==cr.course_code:
-                        flag=0
-                        if cr in NOT_COURSE: NOT_COURSE.remove(cr)
-            if(flag==1):
-                course_li.append(cr)
-            flag=1
-    prof=Professor.objects.all().order_by('prof_name')
-    fr_courses=ForeignCourseList.objects.filter(programme=pr,semester=sem)
-    url="/programme/"+kr+"/"+pro+"/"+sem+"/"
-    context={'programme_li' : pr ,'course_li' : course_li,'professors':prof,'semester':sem,'teaching' : teaching,'url':url,'fr_courses':fr_courses,'NOT_COURSE':NOT_COURSE,'count':count}
-    return  render(request,'collection/print.html',context)
+    global pr_list
+    check=CheckList.objects.filter(programme=pr)
+    for CH in check:
+        if not CH.allot or not CH.course:
+            flag=0
+    if flag==1:
+        i=range(1,pr.duration*2,2)
+        j=['I','III','V','VII','IX','XI','XI']
+        IN=zip(i,j)
+        course_list=ApprovedCourseTeaching.objects.filter(programme=pr)
+        fr_course_list=ForeignCourseList.objects.filter(programme=pr)
 
+        context= {'course_list':course_list,'sem':IN,'fr_course_list':fr_course_list,'check':check,'pr':pr}
+        return render(request,'collection/print_page.html',context)
+    msg_log="You need to lock all the courses, courses-faculty data before you can print/export data of <b>"+pr.programme_name+"</b>"
+    messages.error(request,msg_log)
+    url='/programme/'+kr+'/'
+    return HttpResponseRedirect(url)
 def login_user(request):
     state = ""
     username = password = ''
@@ -150,12 +157,18 @@ def login_user(request):
                 state = "Your account is not active, please contact the site admin."
         else:
             state = "Your username and/or password were incorrect."
+            messages.error(request,state)
 
-    return render(request, 'registration/login.html',{'state':state})
+    return render(request, 'registration/login.html')
 
 def logout_user(request):
     if request.user.is_authenticated():
         logout(request)
+        state="You have been successfully logged out."
+        messages.success(request,state)
+    else:
+        state="Oops ! You are already logged out ! Try logging in again"
+        messages.error(request,state)
     return render(request, 'registration/logged_out.html')
 
 
@@ -289,31 +302,31 @@ def add_teacher(request, kr, pro,sem):
             if (con_name==p1_name or con_name==p2_name or con_name==p3_name):
                 er1="You have selected same Convener name as other faculty in "
                 errors.append(er1)
-                er1=cr.course_code +" "+cr.course_code.course_name
+                er1=cr.course_code +" "+cr.course.course_name
                 course_error.append(er1)
                 er=True
             if((not p2_name) and (p3_name)):
                 er1="Select 2nd Faculty First Then 3rd Faculty "
                 errors.append(er1)
-                er1=cr.course_code +" "+cr.course_code.course_name
+                er1=cr.course_code +" "+cr.course.course_name
                 course_error.append(er1)
                 er=True
             if((not p1_name) and (p2_name)):
                 er1="Select 1st Faculty First Then Select 2nd Faculty "
                 errors.append(er1)
-                er1=cr.course_code +" "+cr.course_code.course_name
+                er1=cr.course_code +" "+cr.course.course_name
                 course_error.append(er1)
                 er=True
             if((not p1_name) and (p3_name)):
                 er1="Select 1st Faculty First Then Select 3rd Faculty "
                 errors.append(er1)
-                er1=cr.course_code +" "+cr.course_code.course_name
+                er1=cr.course_code +" "+cr.course.course_name
                 course_error.append(er1)
                 er=True
             if((p1_name==p2_name and p1_name) or (p3_name==p1_name and p3_name)) or (p2_name==p3_name and p3_name):
                 er1="You have selected same faculty "
                 errors.append(er1)
-                er1=cr.course_code +" "+cr.course_code.course_name
+                er1=cr.course_code +" "+cr.course.course_name
                 course_error.append(er1)
                 er=True
             #Succesful COurses Now
@@ -328,7 +341,7 @@ def add_teacher(request, kr, pro,sem):
                 p.prof_id4=p3_id,
 
                 p.save()
-                success=cr.course_code +" "+cr.course_code.course_name
+                success=cr.course_code +" "+cr.course.course_name
                 log_message="Successfully Added Faculty Details of "+success
                 log_query=ActivityLog(USER=profile,log=log_message)
                 log_query.save()

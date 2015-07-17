@@ -16,7 +16,7 @@ class dept(models.Model):
         return self.dept_name
 
 class programme(models.Model): #Btech/IDD/M.Tech/B.Pharm etc
-    programme_code=models.CharField(max_length=20)
+    programme_code=models.CharField(max_length=25)
     programme_name=models.CharField(max_length=250)
     duration=models.IntegerField(max_length=2)
     branch=models.ForeignKey(dept,blank=False,null=False)
@@ -33,7 +33,7 @@ class Professor(models.Model):
     prof_name = models.CharField(max_length=150)
     email = models.EmailField(blank=False, null=False)
     dept = models.ForeignKey(dept)
-    designation = models.CharField(max_length=3, choices=des)  # Currently I have added only three desnignations
+    designation = models.CharField(max_length=3, choices=des,null=True,blank=True)  # Currently I have added only three desnignations
 
     def __str__(self):              # __unicode__ on Python 2
         return self.prof_name
@@ -41,12 +41,13 @@ class Professor(models.Model):
 class ApprovedCourseList(models.Model):
     course_code = models.CharField(max_length=10)#as IDD and B.Tech have same code so id is used
     course_name = models.CharField(max_length=150)
-    syllabus = models.CharField(max_length=2500)
+    syllabus = models.CharField(max_length=2500,blank=True,null=True)
     credit = models.IntegerField(max_length=2)
+    ELECT=models.CharField(max_length=5,blank=True,null=True)
     programme = models.ForeignKey(programme)
     l=models.IntegerField(blank=True,null=True)
     t=models.IntegerField(blank=True,null=True)
-    elect_or_comp = models.IntegerField(max_length=1,blank=True,default=1)
+    elect_or_comp = models.IntegerField(default=1) #1 for compulsory, 0 for elective,
     p=models.IntegerField(blank=True,null=True)
     level_0 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_0_list')
     level_1 = models.ForeignKey(Profile, null=True, blank=True, related_name='app_level_1_list')
@@ -80,7 +81,7 @@ class CheckList(models.Model):
     minimum_elective=models.IntegerField()
     allot=models.BooleanField(default=False)
     def __str__(self):              # __unicode__ on Python 2
-        return str(self.semester)
+        return str(self.programme)
 class ProposedCourseList(models.Model):
     course_code = models.CharField(max_length=10)
     course_name = models.CharField(max_length=150)
@@ -133,5 +134,5 @@ class ActivityLog(models.Model):
     USER=models.ForeignKey(Profile)
     log=models.CharField(max_length=1500)
     date_time= models.DateTimeField(auto_now=True)
-    def __str__(self):              # __unicode__ on Python 2
+    def __unicode__(self):              # __unicode__ on Python 2
         return self.log
